@@ -13,3 +13,212 @@ datasource db {
 }
 
 
+model User{
+  id              String @id  @default(uuid())
+  name            String?
+  email           String? @unique
+  phoneNumber     String? @unique
+  profileImage    String?
+  isEmailVerified Boolean @default(false)
+  isPhoneVerified Boolean @default(false)
+  status          UserStatus @default(PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  accounts        Account[]
+  documents       Document[]
+  vehicles        Vehicle[]
+  bookings        Booking[]
+  reviewsGiven    Review[] @relation("reviewer")
+  reviewReceived  Review[]  @relation("reviewed")
+  incidents       Incident[]
+
+  @@map("users")
+}
+
+enum UserStatus{
+  PENDING
+  VERIFIED
+  SUSPEND
+  BAN
+}
+
+model Account{
+  id                String    @id @default(uuid())
+  userId            String
+  user              User  @relation(fields: [userId], references: [id])
+  providerAccountId String
+  createdAt         DateTime  @default(now())
+  provider          AuthProvider
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+enum AuthProvider{
+  GOOGLE
+  PHONE
+}
+
+model Document{
+  id              String    @id   @default(uuid())
+  userId          String
+  user            User @relation(fields: [userId], references: [id])
+  type            DocumentType
+  frontImageUrl   String?
+  backImageUrl    String?
+  status          DocumentStatus  @default(PENDING)
+  extractedData   Json?
+  createdAt       DateTime  @default(now())
+  @@map("documents")
+}
+
+enum DocumentStatus{
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DocumentType{
+  DRIVING_LICENSE
+  AADHAR
+  SELFIE
+}
+
+model Vehicle{
+  id                String    @id   @default(uuid())
+  ownerId           String
+  owner             User  @relation(fields: [ownerId], references: [id])
+  description       String?
+  type              VehicleType
+  brand             String
+  model             String
+  purchasedYear     DateTime ?
+  yearOld           Int?
+  pricePerHour      Int
+  pricePerDay       Int
+  registrationNumber  String?
+  gpsEnabled        Boolean @default(false)
+  gpsDevice         GPSDevice?
+  status            VehicleStatus   @default(PENDING)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt 
+  images            VehicleImages[]
+  bookings          Booking[]
+
+  @@map("vehicles")
+}
+
+model GPSDevice{
+  id            String    @id @default(uuid())
+  vehicleId     String  @unique
+  deviceId      String  @unique
+  provider      String?
+  simNumber     String?
+  imei          String? @unique
+  isActive      Boolean @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime    @updatedAt
+  vehicle       Vehicle @relation(fields: [vehicleId], references: [id])
+  telemetry     Telemetry[]
+}
+
+model Telemetry{
+  id            String    @id @default(uuid())
+  gpsDeviceId   String
+  latitude      Float
+  longitude     Float
+  speed         Float?
+  batteryLevel  Int?
+  createdAt     DateTime  @default(now())
+  gpsDevice     GPSDevice @relation(fields: [gpsDeviceId], references: [id], onDelete: Cascade)
+  
+  @@index([gpsDeviceId])
+}
+enum VehicleStatus{
+  PENDING
+  ACTIVE
+  BLOCKED
+}
+
+enum VehicleType{
+  BIKE
+  CAR
+}
+
+model VehicleImages{
+  id                String  @id @default(uuid())
+  vehicleId         String
+  imageUrl          String
+  vehicle           Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@map("vehicle_images")
+}
+
+model Booking{
+  id            String  @id   @default(uuid())
+  vehicleId     String
+  renterId      String
+  startAt       DateTime
+  endAt         DateTime
+  status        BookingStatus
+  totalPrice    Decimal @db.Decimal(10,2)  
+  createdAt     DateTime  @default(now())
+  vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+  renter        User  @relation(fields: [renterId], references: [id])
+  reviews       Review[]
+  incident      Incident?
+  @@map("bookings")
+}
+
+enum BookingStatus{
+  PENDING
+  APPROVED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  OVERDUE
+}
+
+model Review{
+  id              String    @default(uuid())  @id
+  bookingId       String
+  booking         Booking @relation(fields: [bookingId], references: [id])
+  reviewerId      String
+  reviewer        User  @relation("reviewer", fields: [reviewerId], references: [id])
+  reviewedId      String
+  reviewed        User  @relation("reviewed", fields: [reviewedId], references: [id])
+  rating          Int
+  comments        String?
+  createdAt       DateTime  @default(now())
+  @@map("reviews")
+}
+
+model Incident{
+  id            String    @id @default(uuid())
+  bookingId     String @unique
+  booking       Booking @relation(fields: [bookingId], references: [id])
+  userId        String
+  user          User  @relation(references: [id], fields: [userId])
+  reason        String
+  status        IncidentStatus  @default(OPEN)
+
+  @@map("incidents")
+}
+
+enum IncidentStatus{
+  OPEN
+  INVESTIGATING
+  RESOLVED
+}
+
+model OTP{
+  id          String    @id   @default(uuid())
+  phoneNumber String
+  code        String @db.VarChar(6)
+  expiresAt   DateTime
+  used        Boolean @default(false)
+  createdAt   DateTime  @default(now())
+
+  @@map("otps")
+}
+
