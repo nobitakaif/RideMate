@@ -12,4 +12,11 @@ export namespace UserModel{
         number : t.String()
     })
     export type VerifyOTPSchema = typeof verifyOTPSchema.static
+
+    export const userSchema = t.Object({
+        name : t.String(),
+        email : t.String(),
+        phoneNumber : t.String(),
+    })
+    export type UserScheme = typeof userSchema.static
 }

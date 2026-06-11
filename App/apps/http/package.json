@@ -6,8 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@repo/db": "workspace:*",
+    "better-auth": "^1.6.16",
     "elysia": "latest",
-    "firebase": "^12.14.0"
+    "firebase": "^12.14.0",
+    "resend": "^6.12.4"
   },
   "devDependencies": {
     "bun-types": "latest"

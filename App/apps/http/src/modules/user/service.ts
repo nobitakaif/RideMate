@@ -1,5 +1,6 @@
 import { sendOTP, verifyOTP } from "../../lib/twilio";
 import { UserModel } from "./model";
+import { prisma } from "@repo/db"
 
 export abstract class UserAuthService{
     static async sentOTP ({ number } : UserModel.SentOTPSchema) {
@@ -34,4 +35,29 @@ export abstract class UserAuthService{
             }
         }
     }
+
+    static async userCreationViaPhone({ name, email, phoneNumber}: UserModel.UserScheme){
+        try{
+            const res = await prisma.user.create({
+                data : {
+                    name,
+                    email,
+                    isPhoneVerified : true,
+                    phoneNumber : phoneNumber,
+                }
+            })
+            
+            
+            return {
+                id : res.id,
+                success : true
+            }
+        
+        }catch(e){
+            return {
+                success : false, 
+                error : e
+            }
+        }
+    } 
 }
