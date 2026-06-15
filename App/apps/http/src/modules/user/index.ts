@@ -1,7 +1,10 @@
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import { UserModel } from "./model";
 import { UserAuthService } from "./service";
-import { auth, authClient } from "../../lib/betterAuth";
+import { OAuth2Client } from "google-auth-library";
+
+const googleClientId = process.env.GOOGLE_CLIENT_ID
+const GoogleOAuthClient = new OAuth2Client(googleClientId)
 
 export const userAuth = new Elysia({prefix : "/auth"})
     .post("/number/sent", async  ({ body })=>{
@@ -55,11 +58,29 @@ export const userAuth = new Elysia({prefix : "/auth"})
         body : UserModel.userSchema
     })
     // link with google 
-    .get("/google/callback", async ()=>{
+    .post("/google/callback", async ({ body })=>{
+        console.log(body)
+        
+        console.log("GOOGLE_CLIENT_ID -> ",googleClientId)
+        const ticket = await GoogleOAuthClient.verifyIdToken({
+            idToken : body.idToken,
+            audience : googleClientId
+        })
+        console.log("ticket -> ",ticket)
+        const payload = ticket.getPayload()
+        console.log("payload -> ", payload)
+        const number = "+919670510494"
+        await UserAuthService.verifyGoogleAccount({phoneNumber : number, payload})
+        return {
+            payload
+        }
+        
         try{
             
             
         }catch(e){
             console.log(e)
         }
+    },{
+        body : t.Any()
     })

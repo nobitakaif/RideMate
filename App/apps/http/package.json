@@ -6,10 +6,12 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysia/cors": "^1.4.2",
     "@repo/db": "workspace:*",
     "better-auth": "^1.6.16",
     "elysia": "latest",
     "firebase": "^12.14.0",
+    "google-auth-library": "^10.7.0",
     "resend": "^6.12.4"
   },
   "devDependencies": {
