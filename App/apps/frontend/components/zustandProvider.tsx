@@ -3,7 +3,7 @@
 import { type ReactNode, createContext, useState, useContext} from "react"
 import { useStore } from "zustand"
 
-import { type PhoneNumberAction, PhoneNumberStore, createPhoneNumberStore } from "./phoneStore"
+import { type PhoneNumberAction, PhoneNumberStore, createPhoneNumberStore } from "@/config/phoneStore"
 
 export  type PhoneNumberStoreApi = ReturnType<typeof createPhoneNumberStore>
 

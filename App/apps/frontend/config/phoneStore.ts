@@ -17,6 +17,6 @@ export const createPhoneNumberStore = (initialState: PhoneNumberState = defaultS
     return createStore<PhoneNumberStore>()((set, get) => ({
         ...initialState,
         getPhoneNumber: () => get().phoneNumber,
-        setPhoneNumber: (phoneNumber : string | number ) => set({ phoneNumber })
+        setPhoneNumber: (phoneNumber : string | number ) => set({ phoneNumber : phoneNumber })
     }))
 }
