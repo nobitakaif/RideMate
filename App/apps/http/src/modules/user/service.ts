@@ -8,7 +8,7 @@ import { prisma } from "@repo/db"
 export abstract class UserAuthService{
     static async sentOTP ({ number } : UserModel.SentOTPSchema) {
         const res = await sendOTP(number)
-        
+        console.log(res)
         if('status' in res){
             return {
                 status : res.status,

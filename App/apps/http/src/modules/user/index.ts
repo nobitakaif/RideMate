@@ -1,4 +1,4 @@
-import Elysia, { t } from "elysia";
+import Elysia, {  t } from "elysia";
 import { UserModel } from "./model";
 import { UserAuthService } from "./service";
 import { OAuth2Client } from "google-auth-library";
@@ -7,21 +7,25 @@ const googleClientId = process.env.GOOGLE_CLIENT_ID
 const GoogleOAuthClient = new OAuth2Client(googleClientId)
 
 export const userAuth = new Elysia({prefix : "/auth"})
-    .post("/number/sent", async  ({ body })=>{
+    .post("/number/sent", async  ({ body, status })=>{
         const { number } = body
         const res = await UserAuthService.sentOTP({number})
         if('status' in res){
-            return {
+            return status(200,{
                 msg : res.msg
-            }
+            })
         }
 
-        return {
+        return status(400,{
             success : res.success,
             msg : res.msg
-        }
+        })
     }, {
-       body : UserModel.sentOTPSchema 
+       body : UserModel.sentOTPSchema,
+       response : {
+        200 : t.Any(),
+        400 : t.Any()
+       }
     })
     .get("/number/verify", async ({ body }) =>{
         const { otp, number } = body
