@@ -27,7 +27,7 @@ export const userAuth = new Elysia({prefix : "/auth"})
         400 : t.Any()
        }
     })
-    .get("/number/verify", async ({ body }) =>{
+    .post("/number/verify", async ({ body }) =>{
         const { otp, number } = body
         const res = await UserAuthService.verifyOTP({ otp, number })
         if(res.success){
@@ -63,7 +63,7 @@ export const userAuth = new Elysia({prefix : "/auth"})
     })
     // link with google 
     .post("/google/callback", async ({ body })=>{
-        console.log(body)
+        console.log("body -> ",body)
         
         console.log("GOOGLE_CLIENT_ID -> ",googleClientId)
         const ticket = await GoogleOAuthClient.verifyIdToken({

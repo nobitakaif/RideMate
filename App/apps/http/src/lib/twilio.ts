@@ -17,6 +17,7 @@ export async function sendOTP(to: string): Promise<string | any> {
             status : verification.status
         }
     }catch(e){
+        console.log("error -> ", e)
         return {
             error : e
         }
@@ -25,14 +26,17 @@ export async function sendOTP(to: string): Promise<string | any> {
     
 }
 
-export async function verifyOTP(otp : string, to : string ){
+export async function verify(otp : string, to : string ){
     try{
+        console.log("Otp2 -> ", otp)
         const isVerified = await client.verify.v2.services(verifyServiceId)
             .verificationChecks.create({
                 code : otp,
-                to : to
-            })
-
+                to : `+91${to}`
+            }
+        )
+        console.log("status -> ",isVerified.status)
+        console.log("response ->", isVerified)
         if(isVerified.status === 'approved'){
             return {
                 msg : "OTP is correct",

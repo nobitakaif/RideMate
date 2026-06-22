@@ -6,7 +6,7 @@ import { cors } from "@elysia/cors"
 
 export const app = new Elysia({prefix : "/api/v1"})
   .use(cors({
-    origin : ["http://localhost:3000"]
+    origin : ["http://localhost:3000","http://localhost:8000"]
   }))
   .use(userAuth)
   .get("/", () => "Hello Elysia").listen(8000);

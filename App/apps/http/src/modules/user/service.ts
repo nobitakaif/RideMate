@@ -1,5 +1,5 @@
 import { success } from "better-auth/*";
-import { sendOTP, verifyOTP } from "../../lib/twilio";
+import { sendOTP, verify } from "../../lib/twilio";
 import { UserModel } from "./model";
 import { prisma } from "@repo/db"
 
@@ -24,7 +24,9 @@ export abstract class UserAuthService{
     }
 
     static async verifyOTP({ otp, number } : UserModel.VerifyOTPSchema){
-        const res = await verifyOTP(otp, number)
+        console.log("otp ->", otp)
+        const res = await verify(otp, number)
+        console.log("res-> ",res)
         if(res?.success){
             return {
                 success : true,
