@@ -1,3 +1,4 @@
+import { usePhoneNumberStore } from "@/components/zustandProvider"
 import { createStore } from "zustand"
 
 export type PhoneNumberState = {
@@ -20,3 +21,5 @@ export const createPhoneNumberStore = (initialState: PhoneNumberState = defaultS
         setPhoneNumber: (phoneNumber : string | number ) => set({ phoneNumber : phoneNumber })
     }))
 }
+
+

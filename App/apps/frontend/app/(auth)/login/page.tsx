@@ -7,16 +7,21 @@ import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
 import { usePhoneNumberStore } from "@/components/zustandProvider"
 import { client } from "@/config/elysiaClient"
+
+import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
 
+
+
 export default function LoginPage() {
 
-    const { getPhoneNumber, setPhoneNumber, phoneNumber } = usePhoneNumberStore((state) => state)
+    const setPhoneNumber = usePhoneNumberStore((state) => state.setPhoneNumber)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [showOTP, setShowOTP] = useState(false)
+    const router = useRouter()
 
     const sendOTPHandler = async () => {
 
@@ -32,15 +37,18 @@ export default function LoginPage() {
         
         setPhoneNumber(inputRef.current.value)
         toast.message(inputRef.current.value)
-        toast.message(phoneNumber)
-        const res = await client.api.v1.auth.number.sent.post({ number : `+91${phoneNumber}`})
-        console.log(res)
-        if(res.error){
-            setError(res.error.value.message ?? "something went wrong")
+        // toast.message(phoneNumber)
+        const {error, data} = await client.api.v1.auth.number.sent.post({ number : `+91${inputRef.current.value}`})
+        console.log(data)
+        if(error){
+            setError(error.value.message ?? "something went wrong")
+            setIsLoading(false)
             return
         }
-        
-        // setShowOTP(true)
+        toast.success("OTP has been sent to your number")
+        setIsLoading(false)
+        // router.push("/info")
+        setShowOTP(true)
         
     }
 
