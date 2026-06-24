@@ -1,30 +1,19 @@
-"use client"
 
+import { client } from "@/config/elysiaClient";
 import { BACKEND_URL } from "@/lib/config";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { cookies } from "next/headers";
 
 const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
 
-export default function Home() {
+export default async function Home() {
+  const cookie = await cookies()
+  const session = cookie.get("auth")
+  // client.api.v1.auth.
   return (
-    <GoogleOAuthProvider clientId={googleClientId!}>
-      <div className="flex justify-center items-center h-screen w-full">
-        <div className="h-44 w-54">
-          <GoogleLogin onSuccess={async (cre) =>{
-            const res = await fetch(`${BACKEND_URL}/auth/google/callback`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  idToken: cre.credential,
-                }),
-              });
-              console.log(res)
-          }} />
-        </div>
-      </div>  
-    </GoogleOAuthProvider>
+    <div>
+      
+    </div>
   );
 }

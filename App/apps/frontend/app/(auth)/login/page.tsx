@@ -1,4 +1,5 @@
 "use client"
+import ConnectWithGoogle from "@/components/connectGoogle"
 import OTPBox from "@/components/otp"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
@@ -38,6 +39,8 @@ export default function LoginPage() {
         setPhoneNumber(inputRef.current.value)
         toast.message(inputRef.current.value)
         // toast.message(phoneNumber)
+        // router.push("/info")
+        // return 
         const {error, data} = await client.api.v1.auth.number.sent.post({ number : `+91${inputRef.current.value}`})
         console.log(data)
         if(error){
@@ -47,7 +50,7 @@ export default function LoginPage() {
         }
         toast.success("OTP has been sent to your number")
         setIsLoading(false)
-        // router.push("/info")
+        
         setShowOTP(true)
         
     }
@@ -73,6 +76,7 @@ export default function LoginPage() {
                     <Button className="w-full bg-blue-500 mt-4 mb-4 cursor-pointer text-xl font-bold" onClick={sendOTPHandler}>{isLoading ? <Spinner /> : "Send OTP"}</Button>
 
                 </CardContent>
+                
             </Card>
             {showOTP && <OTPBox setShowOTP={setShowOTP}/>}
         </div>
