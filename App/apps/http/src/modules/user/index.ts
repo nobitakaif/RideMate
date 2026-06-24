@@ -2,6 +2,7 @@ import Elysia, {  t } from "elysia";
 import { UserModel } from "./model";
 import { UserAuthService } from "./service";
 import { OAuth2Client } from "google-auth-library";
+import jwt from "@elysia/jwt";
 
 const googleClientId = process.env.GOOGLE_CLIENT_ID
 const GoogleOAuthClient = new OAuth2Client(googleClientId)
@@ -43,24 +44,7 @@ export const userAuth = new Elysia({prefix : "/auth"})
     }, {
         body : UserModel.verifyOTPSchema
     })
-    // # TODO : this route only should be accessible if user is already verified with their number 
-    .post("/number", async ({ body }) =>{
-        const { name,  email, phoneNumber } = body
-        const res = await UserAuthService.userCreationViaPhone({ name, email, phoneNumber, })
-
-        if('id' in res){
-            return {
-                id : res.id,
-                success : res.success
-            }
-        }
-        return {
-            success : res.success, 
-            error : res.error
-        }
-    },{
-        body : UserModel.userSchema
-    })
+    
     // link with google 
     .post("/google/callback", async ({ body })=>{
         console.log("body -> ",body)
@@ -74,17 +58,58 @@ export const userAuth = new Elysia({prefix : "/auth"})
         const payload = ticket.getPayload()
         console.log("payload -> ", payload)
         const number = "+919670510494"
-        await UserAuthService.verifyGoogleAccount({phoneNumber : number, payload})
+        const res = await UserAuthService.verifyGoogleAccount({phoneNumber : body.number, payload})
         return {
-            payload
+            res : res?.msg, 
+            allRes : res
         }
         
-        try{
-            
-            
-        }catch(e){
-            console.log(e)
-        }
+        
     },{
         body : t.Any()
+    })
+    .use(
+        jwt({
+            name : "jwt",
+            secret : process.env.JWT_SECRET!
+        })
+    )
+    // # TODO : this route only should be accessible if user is already verified with their number 
+    .post("/number", async ({ body, cookie : { auth }, jwt }) =>{
+        const { name, phoneNumber } = body
+        const res = await UserAuthService.userCreationViaPhone({ name, phoneNumber, })
+        const token = await jwt.sign({userId : res.id})
+        auth.set({
+            value : token, 
+            httpOnly : true,
+            maxAge : 7 * 86400, // days,
+            path : "/"
+        })
+        if('id' in res){
+            return {
+                id : res.id,
+                success : res.success
+            }
+        }
+        return {
+            success : res.success, 
+            error : res.error
+        }
+    },{
+        body : UserModel.userSchema
+    })
+    .get("/me", async ({ jwt, query }) =>{
+        const { session } = query
+
+        const decodedToken = await jwt.verify(session)
+        if(!decodedToken || typeof decodedToken != "string"){
+            return {
+
+            }
+        }
+        decodedToken
+    }, {
+        query : t.Object({
+            session : t.String()
+        })
     })

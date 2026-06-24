@@ -41,7 +41,7 @@ export abstract class UserAuthService{
         }
     }
 
-    static async userCreationViaPhone({ name, email, phoneNumber}: UserModel.UserScheme){
+    static async userCreationViaPhone({ name, phoneNumber}: UserModel.UserScheme){
         try{
             const res = await prisma.user.create({
                 data : {
@@ -67,15 +67,15 @@ export abstract class UserAuthService{
 
     static async verifyGoogleAccount ({phoneNumber, payload} : {phoneNumber : string, payload : any}){
         try{
-            const userId = await prisma.user.findFirst({
+            const user = await prisma.user.findFirst({
                 where : {
-                    phoneNumber,
+                    phoneNumber : `+91${phoneNumber}`,
                 },
                 select : {
                     id : true
                 }
             })
-            if(!userId?.id){
+            if(!user?.id){
                 return {
                     success : false,
                     msg : "phone number not found!"
@@ -85,7 +85,7 @@ export abstract class UserAuthService{
             const updatedUser = await prisma.$transaction(async (txn) =>{
                 const userInfo = await txn.user.update({
                     where : {
-                        id : userId.id
+                        id : user.id
                     },
                     data : {
                         email : payload.email,
@@ -95,7 +95,7 @@ export abstract class UserAuthService{
                         accounts : {
                             create : {
                                 provider : "PHONE",
-                                id : userId.id,
+                                id : user.id,
                                 providerAccountId : phoneNumber
                             }
                         }
@@ -113,8 +113,17 @@ export abstract class UserAuthService{
                 })
                 
             })
-        }catch(e){
+            return { 
+                success : true,
+                msg : "user is successfully logged with both credential :)"
+            }
 
+        }catch(e){
+            return {
+                success : false,
+                msg : "Something went wrong!",
+                error : e
+            }
         }
     }
 }

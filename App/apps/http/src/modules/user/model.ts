@@ -15,7 +15,7 @@ export namespace UserModel{
 
     export const userSchema = t.Object({
         name : t.String(),
-        email : t.String(),
+        
         phoneNumber : t.String(),
     })
     export type UserScheme = typeof userSchema.static
