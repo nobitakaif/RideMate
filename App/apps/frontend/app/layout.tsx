@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto, Puritan } from "next/font/google";
 import "./globals.css";
 import { PhoneNumberProvider } from "@/components/zustandProvider";
 import type { AppProps } from "next/app"
@@ -12,6 +12,21 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const puritan = Puritan({
+  weight: ['400', '700'], // Regular and Bold
+  style: ['normal', 'italic'], // Normal and Italic
+  subsets: ['latin'],
+  variable: '--font-puritan', // CSS variable for native/Tailwind usage
+  display: 'swap',
+});
+
+const roboto = Roboto({
+  weight: ['100', '300', '400', '500', '700', '900'], // Specify weights you need
+  subsets: ["latin"],
+  display: "swap", // Optional: improves loading perception
+  variable: '--font-roboto',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${puritan.variable} ${roboto .variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <PhoneNumberProvider>

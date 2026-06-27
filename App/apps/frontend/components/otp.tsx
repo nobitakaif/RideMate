@@ -87,7 +87,7 @@ export default function OTPBox({ setShowOTP } : { setShowOTP :any}) {
     };
 
     return (
-        <div className="h-screen w-full flex justify-center items-center absolute backdrop-blur-sm" >
+        <div className="h-full w-full flex justify-center items-center absolute backdrop-blur-sm" >
             <Card className="w-77 h-44 p-4">
                 <CardTitle className="text-center text-2xl">verify OTP</CardTitle>
                 <CardContent className="flex gap-3 justify-center">

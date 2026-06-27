@@ -4,6 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer utilities {
+  /* Roboto Weight-Specific Utilities */
+  .font-roboto-100 { font-family: var(--font-roboto); font-weight: 100; }
+  .font-roboto-300 { font-family: var(--font-roboto); font-weight: 300; }
+  .font-roboto-400 { font-family: var(--font-roboto); font-weight: 400; }
+  .font-roboto-500 { font-family: var(--font-roboto); font-weight: 500; }
+  .font-roboto-700 { font-family: var(--font-roboto); font-weight: 700; }
+  .font-roboto-900 { font-family: var(--font-roboto); font-weight: 900; }
+}
+
+@layer utilities {
+  .font-puritan-400 { font-family: var(--font-puritan); font-weight: 400; font-style: normal; }
+  .font-puritan-400-italic { font-family: var(--font-puritan); font-weight: 400; font-style: italic; }
+  .font-puritan-700 { font-family: var(--font-puritan); font-weight: 700; font-style: normal; }
+  .font-puritan-700-italic { font-family: var(--font-puritan); font-weight: 700; font-style: italic; }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

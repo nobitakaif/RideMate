@@ -13,7 +13,7 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
-// console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
+
 export default function UserInfoPage() {
   
   const number = useHydratedPhoneNumber()

@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
 import { usePhoneNumberStore } from "@/components/zustandProvider"
 import { client } from "@/config/elysiaClient"
+import { User } from "lucide-react"
+import Image from "next/image"
+
+import SignupFormDemo from "@/components/signup-form-demo";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
@@ -56,29 +61,102 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="h-screen w-full bg-[#e2dfdf] flex justify-center items-center">
-            <Card className="w-[30%]  text-black p-3">
-                <CardTitle className="text-black  text-center text-4xl font-bold ">Authorize yourself</CardTitle>
-                <CardContent >
-                    <Label className="text-2xl">Phone Number : </Label>
-                    <Input type="text" placeholder="enter your phone number " className="tracking-[0.5em] text-2xl p-2 border-2 border-black" 
-                     maxLength={10} pattern="[0-9]{10}" ref={inputRef} onChange={(e) => {
-                        const value = e.target.value
-                        const numericValue = value.replace(/\D/g, "")
-                        if (numericValue !== value) {
-                            setError("enter number")
-                            e.target.value = numericValue
-                        } else {
-                            setError(null)
-                        }
-                    }} />
-                    {error && <p className="text-red-700 mt-1"> {error}</p>}
-                    <Button className="w-full bg-blue-500 mt-4 mb-4 cursor-pointer text-xl font-bold" onClick={sendOTPHandler}>{isLoading ? <Spinner /> : "Send OTP"}</Button>
+        <div className="bg-[radial-gradient(at_50%_0%,_rgb(229,231,235),_rgb(156,163,175),_rgb(75,85,99))] h-screen w-full flex justify-center items-center ">
+            <div className="h-[90%] w-[90%] bg-white/20 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl">
+                <div className="flex justify-center items-center h-[90%]">
+                    <Card className="w-[40%] h-[70%]">
+                        <CardTitle className="text-center text-4xl font-roboto-700 font-bold">
+                            Please Authorize yourself
+                        </CardTitle>
+                    </Card>
+                </div>
+            </div>
 
-                </CardContent>
-                
-            </Card>
-            {showOTP && <OTPBox setShowOTP={setShowOTP}/>}
-        </div>
+        </div>        
     )
 }
+
+// //  <Card className="w-[30%]  text-black p-3">
+// //                 <CardTitle className="text-black  text-center text-4xl font-bold ">Authorize yourself</CardTitle>
+// //                 <CardContent >
+// //                     <Label className="text-2xl">Phone Number : </Label>
+// //                     <Input type="text" placeholder="enter your phone number " className="tracking-[0.5em] text-2xl p-2 border-2 border-black" 
+// //                      maxLength={10} pattern="[0-9]{10}" ref={inputRef} onChange={(e) => {
+// //                         const value = e.target.value
+// //                         const numericValue = value.replace(/\D/g, "")
+// //                         if (numericValue !== value) {
+// //                             setError("enter number")
+// //                             e.target.value = numericValue
+// //                         } else {
+// //                             setError(null)
+// //                         }
+// //                     }} />
+// //                     
+// //                     <Button className="w-full bg-blue-500 mt-4 mb-4 cursor-pointer text-xl font-bold" onClick={sendOTPHandler}>{isLoading ? <Spinner /> : "Send OTP"}</Button>
+
+// //                 </CardContent>
+                
+// //             </Card>
+// //             
+// // }
+
+// export default function Page(){
+//     return <PlaceholdersAndVanishInput onChange={( )=>{}} onSubmit={() =>{}} placeholders={["enter you phone number"]}/>
+// }
+
+
+
+
+
+
+
+
+
+
+
+// <div className="h-screen w-full bg-[radial-gradient(at_50%_0%,_rgb(229,231,235),_rgb(156,163,175),_rgb(75,85,99))] flex justify-center items-center">
+//             <div className="h-[90%] w-[90%]  rounded-4xl flex gap-2 shadow-2xl ">
+//                 {/* left side */}
+//                 <div className=" h-full w-[50%] bg-[#93eded44] rounded-l-4xl">
+
+//                 </div>
+//                 {/* right side */}
+//                 <div className=" bg-[#dddddd49]  w-[50%] rounded-4xl flex pt-5 flex-col lg:gap-20 p-4 items ">
+
+//                     <div className="flex justify-between">
+//                         <h1 className="text-4xl font-roboto-700 ml-5 mt-5 ">RideMate</h1>
+//                         <div className="flex gap-2 mt-5 mr-5">
+//                             <User />
+//                             <h1 className="font-roboto-400">Login</h1>
+//                         </div>  
+//                     </div>
+//                     <div className="flex justify-center items-start  h-full">
+//                         <Card className="bg-[#dddddd86] h-[80%] w-[80%] mt-5 shadow-2xl">
+//                             <CardTitle className="text-center text-4xl font-bold font-roboto-400">Please Authorize YourSelf</CardTitle>
+//                             <div className="p-4">
+//                                 <Label className="mb-2 text-lg">Phone Number</Label>
+//                                 <Input type="text" placeholder="enter your phone number "
+//                                     className="tracking-[0.5em] text-2xl p-2 border-2 border-black rounded-full" 
+//                                     maxLength={10} pattern="[0-9]{10}" ref={inputRef} onChange={(e) => {
+//                                         const value = e.target.value
+//                                         const numericValue = value.replace(/\D/g, "")
+//                                         if (numericValue !== value) {
+//                                             setError("enter number")
+//                                             e.target.value = numericValue
+//                                         } else {
+//                                             setError(null)
+//                                         }
+//                                 }} />
+//                                 {error && <p className="text-red-700 mt-1"> {error}</p>}
+                                
+//                             </div>
+//                             <Button className="p-4 mx-2 text-lg" onClick={sendOTPHandler}>Send OTP</Button>
+//                         </Card>
+                        
+//                     </div>
+//                     <div className="absolute w-[50%] h-full top-0 overflow-hidden">
+//                             {!showOTP && <OTPBox setShowOTP={setShowOTP}/>}
+//                         </div>
+//                 </div>
+//             </div>
+//         </div>
