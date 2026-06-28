@@ -6,7 +6,7 @@ import { CiMobile3 } from "react-icons/ci";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-export default function SigninPage(){
+export default function SigninPage({setShowOTP, setProgress} : {setShowOTP : any, setProgress : any}){
     return <motion.div 
         initial ={{
             opacity : 0,
@@ -48,7 +48,11 @@ export default function SigninPage(){
                                          }
                     }} />
                 </div>
-                <Button className="bg-[#2D6A4F] hover:bg-[#1F4F3A] cursor-pointer w-full py-5 text-lg " >Send OTP</Button>
+
+                <Button className="bg-[#2D6A4F] hover:bg-[#1F4F3A] cursor-pointer w-full py-5 text-lg " onClick={() =>{
+                    setProgress('verify')
+                    setShowOTP(true)
+                }}>Send OTP</Button>
             </div>
             <p className="text-center">Already have an <Link href={"#"} className="text-[#1F4F3A] underline">Account</Link></p>
     </motion.div>
