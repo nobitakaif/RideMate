@@ -1,4 +1,4 @@
-import LeftSigninAuthPage from "@/components/leftSigninAuth";
+import LeftSigninAuthPage from "@/components/leftAuth";
 import RightAuthPage from "@/components/rightAuthPage";
 
 export default function Auth(){
