@@ -8,12 +8,6 @@ import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
 import { usePhoneNumberStore } from "@/components/zustandProvider"
 import { client } from "@/config/elysiaClient"
-import { User } from "lucide-react"
-import Image from "next/image"
-
-import SignupFormDemo from "@/components/signup-form-demo";
-import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
-
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
@@ -28,6 +22,9 @@ export default function LoginPage() {
     const [error, setError] = useState<string | null>(null)
     const [showOTP, setShowOTP] = useState(false)
     const router = useRouter()
+    const [selected, setSelected] = useState< 'phone'|'google' >('phone')
+    const phoneRef = useRef<HTMLDivElement | null>(null)
+    const googleRef = useRef<HTMLDivElement | null>(null)
 
     const sendOTPHandler = async () => {
 
@@ -60,16 +57,68 @@ export default function LoginPage() {
         
     }
 
+    const getClassName = (option : any) => {
+        const isSelected = selected === option;
+        const baseClasses = "w-full text-center p-1 text-2xl rounded-2xl cursor-pointer";
+        
+        if (isSelected) {
+        // Selected State: Black background, white text (or black text as requested)
+        return `${baseClasses} bg-black text-white`; 
+        } else {
+        // Unselected State: Gray background, dark gray text
+        return `${baseClasses} `;
+        }
+    };
+    const handleSelect = (option : any) => {
+        setSelected(option);
+    };
+    
     return (
         <div className="bg-[radial-gradient(at_50%_0%,_rgb(229,231,235),_rgb(156,163,175),_rgb(75,85,99))] h-screen w-full flex justify-center items-center ">
             <div className="h-[90%] w-[90%] bg-white/20 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl">
                 <div className="flex justify-center items-center h-[90%]">
-                    <Card className="w-[40%] h-[70%]">
+                    <Card className="w-full max-w-md sm:w-[40%] h-100 max-h-[80vh] ">
                         <CardTitle className="text-center text-4xl font-roboto-700 font-bold">
                             Please Authorize yourself
                         </CardTitle>
+                        <CardContent className="h-[80%] w-full p-5 ">
+                            <div className="flex justify-around rounded-2xl h-10 bg-gray-200 text-gray-600 ">
+                                <div className={getClassName('phone')} onClick={() => handleSelect('phone')}>
+                                    Phone Number
+                                </div>
+                                <div className={getClassName('google')} onClick={() => handleSelect('google')}>
+                                    Google
+                                </div>
+                            </div>
+                            <div className="h-full  flex justify-center items-center">
+                                { selected === 'phone' ? 
+                                    <div >
+                                        <Label className="text-2xl">Phone Number : </Label>
+                     <Input type="text" placeholder="enter your phone number " className="tracking-[0.5em] text-2xl p-2 border-2 border-black" 
+                      maxLength={10} pattern="[0-9]{10}" ref={inputRef} onChange={(e) => {
+                         const value = e.target.value
+                         const numericValue = value.replace(/\D/g, "")
+                         if (numericValue !== value) {
+                             setError("enter number")
+                             e.target.value = numericValue
+                         } else {
+                             setError(null)
+                         }
+                     }} />
+                     
+                     <Button className="w-full bg-blue-500 mt-4 mb-4 cursor-pointer text-xl font-bold" onClick={sendOTPHandler}>{isLoading ? <Spinner /> : "Send OTP"}</Button>
+                                        
+                                    </div>
+                                : 
+                                    <div className="">
+                                        <ConnectWithGoogle/>  
+                                    </div>
+                                }
+                            </div>
+                        </CardContent>
                     </Card>
                 </div>
+                
             </div>
 
         </div>        
