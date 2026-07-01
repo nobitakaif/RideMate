@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const OTP_LENGTH = 6;
 
-export default function OTPBox({ setShowOTP } : { setShowOTP :any}) {
+export default function OTP({ setShowOTP } : { setShowOTP :any}) {
     const [otp, setOtp] = useState<string[]>(Array.from({ length: OTP_LENGTH }, () => ""));
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const router = useRouter()
@@ -87,11 +87,9 @@ export default function OTPBox({ setShowOTP } : { setShowOTP :any}) {
     };
 
     return (
-        <div className="h-full w-full flex justify-center items-center absolute backdrop-blur-sm" >
-            <Card className="w-77 h-44 p-4">
-                <CardTitle className="text-center text-2xl">verify OTP</CardTitle>
-                <CardContent className="flex gap-3 justify-center">
-                    {otp.map((value, index) => (
+       
+            <div>
+                {otp.map((value, index) => (
                         <Input
                             key={index}
                             type="text"
@@ -107,8 +105,8 @@ export default function OTPBox({ setShowOTP } : { setShowOTP :any}) {
                             className="h-10 w-12 text-center"
                         />
                     ))}
-                </CardContent>
-                <Button className="bg-blue-500 text-xl font-semibold" onClick={async ()=>{
+
+<Button className="bg-blue-500 text-xl font-semibold" onClick={async ()=>{
                     const OTPString = otp.reduce((acc, curr) => {
                         return curr !== '' ? acc + curr : acc;
                     }, '');
@@ -133,7 +131,9 @@ export default function OTPBox({ setShowOTP } : { setShowOTP :any}) {
                     }
                     
                 }}>Verify</Button>
-            </Card>
-        </div>
+            </div>
+                
+           
+       
     );
 }

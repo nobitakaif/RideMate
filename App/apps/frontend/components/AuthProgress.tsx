@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Check } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 const steps = [
   { id: "number", label: "Number" },
@@ -19,7 +20,7 @@ export default function AuthProgressBar({
   const currentIndex = steps.findIndex((step) => step.id === state);
 
   return (
-    <div className="flex items-center w-full justify-center">
+    <div className="flex items-center w-full justify-center pl-20">
       {steps.map((step, index) => {
         const completed = index < currentIndex;
         const current = index === currentIndex;
@@ -45,8 +46,9 @@ export default function AuthProgressBar({
                     {index + 1}
                   </span>
                 )}
+              
               </motion.div>
-
+                
               <p
                 className={`mt-3 text-lg ${
                   completed || current
@@ -54,6 +56,7 @@ export default function AuthProgressBar({
                     : "text-gray-400"
                 }`}
               >
+                
                 {step.label}
               </p>
             </div>
@@ -70,6 +73,7 @@ export default function AuthProgressBar({
                     transition={{ duration: 0.4 }}
                     className="absolute left-0 top-0 h-full bg-green-700"
                   />
+                  -------------------------------
                 </div>
               </div>
             )}
