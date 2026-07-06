@@ -13,7 +13,7 @@ export default function ConnectWithGoogle() {
 
     return (
         <GoogleOAuthProvider clientId={googleClientId!}>
-            <div className="flex justify-center items-center bg-green-200">
+            <div className="flex justify-center items-center h-30">
                 <div className="">
                     <GoogleLogin onSuccess={async (cre) =>{
 
