@@ -5,8 +5,13 @@ import { Input } from "./ui/input"
 import { CiMobile3 } from "react-icons/ci";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { client } from "@/config/elysiaClient";
+import { toast } from "sonner";
+import { useRef, useState } from "react";
 
 export default function SigninPage({setSteps, setProgress} : {setSteps : any, setProgress : any}){
+    const inputRef = useRef<HTMLInputElement | null>(null)
+    const [error, setError] = useState<string | null>(null)
     return <motion.div 
         initial ={{
             opacity : 0,
@@ -36,23 +41,38 @@ export default function SigninPage({setSteps, setProgress} : {setSteps : any, se
                         <CiMobile3 className="h-8 w-5 font-semibold"/>
                         <span className="font-semibold text-lg">+91</span>
                     </div>
-                    <Input placeholder="enter your number" className="border-2 border-black h-10 pl-5 text-lg gap-2 font-semibold tracking-[0.9em] placeholder:tracking-normal" maxLength={10} pattern="[0-9]{10}"
+                    <Input placeholder="enter your number" className="border-2 border-black h-10 pl-5 text-lg gap-2 font-semibold tracking-[0.9em] placeholder:tracking-normal" maxLength={10} pattern="[0-9]{10}" ref={inputRef}
                     onChange={(e) => {
-                                         const value = e.target.value
-                                         const numericValue = value.replace(/\D/g, "")
-                                         if (numericValue !== value) {
-                                            //  setError("enter number")
-                                             e.target.value = numericValue
-                                         } else {
-                                            //  setError(null)
-                                         }
+                        const value = e.target.value
+                        const numericValue = value.replace(/\D/g, "")
+                        if (numericValue !== value) {
+                        //  setError("enter number")
+                            e.target.value = numericValue
+                        } else {
+                        //  setError(null)
+                        }
                     }} />
+                    {/* {error && <p>{error}</p>} */}
                 </div>
 
-                <Button className="bg-[#2D6A4F] hover:bg-[#1F4F3A] cursor-pointer w-full py-5 text-lg " onClick={() =>{
-                    setProgress('verify')
+                <Button className="bg-[#2D6A4F] hover:bg-[#1F4F3A] cursor-pointer w-full py-5 text-lg " onClick={async (e) =>{
+                    e.preventDefault()
+                    if(!inputRef.current?.value){
+                        toast.error("something went wrong with inputRef number")
+                        return 
+                    }
+                    if (inputRef.current.value.length < 10 || inputRef.current.value.length > 10 ) {
+                        toast.error("please enter valid number")
+                        return
+                    }
+                    // toast.success(`all good${inputRef.current.value} `)
+                    
+                    const res = await client.api.v1.auth.number.sent.post({number : `+91${inputRef.current.value}`})
+                    console.log(res.data.msg)
+                    toast.success(res.data.msg)
                     setSteps('otp')
-                }}>Send OTP</Button>
+                    setProgress('verify')
+                   }}>Send OTP</Button>
             </div>
             <p className="text-center">Already have an <Link href={"#"} className="text-[#1F4F3A] underline">Account</Link></p>
     </motion.div>

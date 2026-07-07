@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
+import { client } from "@/config/elysiaClient";
 
 const OTP_LENGTH = 6;
 
@@ -66,7 +68,7 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
     e.preventDefault();
-
+    
     const pasted = e.clipboardData
       .getData("text")
       .replace(/\D/g, "")
@@ -86,14 +88,32 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
     setInvalid(false);
   }
 
-  function verifyOTP() {
+  async function verifyOTP() {
     if (otp.some((x) => x === "")) {
       setInvalid(true);
       return;
     }
+    const joinedOTP = otp.join("")
+    const phoneNumber = window.localStorage.getItem("phone-number-storage")
+    
+    
+    try{
+      const parsedData = JSON.parse(phoneNumber!)
+      const number = parsedData.state.phoneNumber
+      console.log(number)
+      const res = await client.api.v1.auth.number.verify.post({number : `+91${number}`, otp : joinedOTP})
+      if(res.data?.success){
+        toast.success(res.data.msg)
+        setSteps("profile")
+        return 
+      }
+      console.log(res)
+      toast.error("something went wrong")
+    }catch(e){
 
+    }
     alert(otp.join(""));
-    setSteps("profile")
+    
   }
 
   return (
