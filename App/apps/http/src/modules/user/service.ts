@@ -25,12 +25,27 @@ export abstract class UserAuthService{
 
     static async verifyOTP({ otp, number } : UserModel.VerifyOTPSchema){
         console.log("otp ->", otp)
+        console.log(number)
         const res = await verify(otp, number)
         console.log("res-> ",res)
         if(res?.success){
+            const user = await prisma.user.upsert({
+                where : {
+                    phoneNumber : number
+                },
+                update : {
+                    phoneNumber : number,
+                    isPhoneVerified : true
+                }, create : {
+                    phoneNumber : number,
+                    isPhoneVerified : true
+                }
+            })
+            
             return {
                 success : true,
-                msg : "phone number Verified"
+                msg : "phone number Verified",
+                id : user.id
             }
         }
         else{

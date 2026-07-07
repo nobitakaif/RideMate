@@ -28,10 +28,23 @@ export const userAuth = new Elysia({prefix : "/auth"})
         400 : t.Any()
        }
     })
-    .post("/number/verify", async ({ body }) =>{
+    .use(
+        jwt({
+            name : "jwt",
+            secret : process.env.JWT_SECRET!
+        })
+    )
+    .post("/number/verify", async ({ body,cookie : { auth }, jwt }) =>{
         const { otp, number } = body
         const res = await UserAuthService.verifyOTP({ otp, number })
         if(res.success){
+            const token = await jwt.sign({userId : res.id})
+            auth.set({
+                value : token, 
+                httpOnly : true,
+                maxAge : 7 * 86400, // days,
+                path : "/"
+            })
             return {
                 success : res.success,
                 msg : res.msg
@@ -68,12 +81,7 @@ export const userAuth = new Elysia({prefix : "/auth"})
     },{
         body : t.Any()
     })
-    .use(
-        jwt({
-            name : "jwt",
-            secret : process.env.JWT_SECRET!
-        })
-    )
+    
     // # TODO : this route only should be accessible if user is already verified with their number 
     .post("/number", async ({ body, cookie : { auth }, jwt }) =>{
         const { name, phoneNumber } = body
