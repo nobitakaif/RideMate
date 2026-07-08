@@ -38,13 +38,6 @@ export const userAuth = new Elysia({prefix : "/auth"})
         const { otp, number } = body
         const res = await UserAuthService.verifyOTP({ otp, number })
         if(res.success){
-            const token = await jwt.sign({userId : res.id})
-            auth.set({
-                value : token, 
-                httpOnly : true,
-                maxAge : 7 * 86400, // days,
-                path : "/"
-            })
             return {
                 success : res.success,
                 msg : res.msg

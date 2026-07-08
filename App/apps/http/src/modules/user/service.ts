@@ -58,11 +58,12 @@ export abstract class UserAuthService{
 
     static async userCreationViaPhone({ name, phoneNumber}: UserModel.UserScheme){
         try{
-            const res = await prisma.user.create({
+            const res = await prisma.user.update({
+                where : {
+                    phoneNumber : `+91${phoneNumber}`
+                },
                 data : {
-                    name,
-                    isPhoneVerified : true,
-                    phoneNumber : phoneNumber,
+                    name : name
                 }
             })
             
@@ -73,6 +74,7 @@ export abstract class UserAuthService{
             }
         
         }catch(e){
+            console.log("error-> ",e)
             return {
                 success : false, 
                 error : e
