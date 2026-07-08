@@ -8,10 +8,15 @@ import Link from "next/link";
 import { client } from "@/config/elysiaClient";
 import { toast } from "sonner";
 import { useRef, useState } from "react";
+import { useUserInfoStore } from "./zustandProvider";
 
 export default function SigninPage({setSteps, setProgress} : {setSteps : any, setProgress : any}){
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [error, setError] = useState<string | null>(null)
+    // const number = usePhoneNumberStore((state)=> state.phoneNumber)
+    const getNumber = useUserInfoStore((state)=> state.getPhoneNumber)
+    const setPhoneNumber = useUserInfoStore((state)=> state.setPhoneNumber)
+
     return <motion.div 
         initial ={{
             opacity : 0,
@@ -66,8 +71,11 @@ export default function SigninPage({setSteps, setProgress} : {setSteps : any, se
                         return
                     }
                     // toast.success(`all good${inputRef.current.value} `)
-                    
-                    const res = await client.api.v1.auth.number.sent.post({number : `+91${inputRef.current.value}`})
+                    setPhoneNumber(inputRef.current.value)
+                    const number = getNumber()
+                    console.log("number -> ", number)
+                    alert(number)
+                    const res = await client.api.v1.auth.number.sent.post({number : `+91${number}`})
                     console.log(res.data.msg)
                     toast.success(res.data.msg)
                     setSteps('otp')

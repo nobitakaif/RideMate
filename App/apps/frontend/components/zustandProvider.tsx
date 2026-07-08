@@ -4,6 +4,7 @@
 import { type ReactNode, createContext, useState, useContext, useEffect } from "react"
 import { useStore } from "zustand"
 import { type PhoneNumberStore, createPhoneNumberStore } from "@/config/phoneStore"
+import { createNameStore } from "@/config/nameStore"
 
 export type PhoneNumberStoreApi = ReturnType<typeof createPhoneNumberStore>
 
@@ -13,9 +14,10 @@ export interface PhoneNumberStoreProvider {
     children: ReactNode
 }
 
-export const PhoneNumberProvider = ({ children }: PhoneNumberStoreProvider) => {
+export const UserInfoProvider = ({ children }: PhoneNumberStoreProvider) => {
     // Create store once
     const [store] = useState(() => createPhoneNumberStore())
+    
 
     // Manually rehydrate the store on mount (because we used skipHydration: true)
     useEffect(() => {
@@ -23,6 +25,7 @@ export const PhoneNumberProvider = ({ children }: PhoneNumberStoreProvider) => {
         if (store.persist) {
             store.persist.rehydrate()
         }
+
     }, [store])
 
     return (
@@ -32,7 +35,7 @@ export const PhoneNumberProvider = ({ children }: PhoneNumberStoreProvider) => {
     )
 }
 
-export const usePhoneNumberStore = <T,>(
+export const useUserInfoStore = <T,>(
     selector: (store: PhoneNumberStore) => T,
 ): T => {
     const phoneNumberStoreContext = useContext(PhoneNumberStoreContext)

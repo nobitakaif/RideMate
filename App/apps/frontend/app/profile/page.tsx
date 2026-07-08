@@ -3,20 +3,41 @@ import ConnectWithGoogle from "@/components/connectGoogle"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useUserInfoStore } from "@/components/zustandProvider"
+import { client } from "@/config/elysiaClient"
+import { createNameStore } from "@/config/nameStore"
 import { motion } from "motion/react"
 import { useRouter } from "next/router"
 import { useRef, useState } from "react"
+import { toast } from "sonner"
 export default function Page(){
     const [isProfile, setIsProfile] = useState<"profile" | "google">("profile")
+    
+    const setName = useUserInfoStore((state) => state.setName)
+    const getName  = useUserInfoStore((state) => state.getName)
+    const getPhoneNumber  = useUserInfoStore((state) => state.getPhoneNumber)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [nameError, setNameError] = useState<string | null>(null)
-    const handleProfile = (e :React.MouseEvent<HTMLButtonElement>) =>{
+    const handleProfile = async (e :React.MouseEvent<HTMLButtonElement>) =>{
         e.preventDefault()
         if(inputRef.current?.value.length! < 4){
             setNameError("character should be more 4 words")
             return 
         }
-        setIsProfile("google")
+        setName(inputRef.current?.value!)
+        console.log("user Name -> ", getName())
+        console.log("user number -> ", getPhoneNumber())
+        const number = getPhoneNumber()
+        const name = getName()
+        const res = await client.api.v1.auth.number.post({name, phoneNumber : number.toString()})
+        if(res.data?.success){
+            toast.success("your name is successfully updated")
+            setIsProfile("google")
+            return 
+        }
+
+        toast.error("something went wrong ")
+        
     }
     
     return <div className="h-screen w-full bg-[#1C1C17] flex justify-center items-center">

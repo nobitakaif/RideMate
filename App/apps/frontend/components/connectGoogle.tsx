@@ -1,6 +1,6 @@
 "use client"
 import { Card } from "@/components/ui/card";
-import { usePhoneNumberStore } from "@/components/zustandProvider";
+import { useUserInfoStore } from "@/components/zustandProvider";
 import { BACKEND_URL } from "@/lib/config";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -8,8 +8,8 @@ const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 // console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
 export default function ConnectWithGoogle() {
   
-    const number = usePhoneNumberStore(state => state.getPhoneNumber())
-    const setEmail = usePhoneNumberStore(state => state.setEmail)
+    const number = useUserInfoStore(state => state.getPhoneNumber())
+    const setEmail = useUserInfoStore(state => state.setEmail)
 
     return (
         <GoogleOAuthProvider clientId={googleClientId!}>

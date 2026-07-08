@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto, Puritan } from "next/font/google";
 import "./globals.css";
-import { PhoneNumberProvider } from "@/components/zustandProvider";
+import { UserInfoProvider } from "@/components/zustandProvider";
 import type { AppProps } from "next/app"
 import { Toaster } from "@/components/ui/sonner"
 const geistSans = Geist({
@@ -45,10 +45,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${puritan.variable} ${roboto .variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <PhoneNumberProvider>
+        <UserInfoProvider>
           {children}
           <Toaster position="bottom-right" richColors/>
-        </PhoneNumberProvider>
+        </UserInfoProvider>
       </body>
     </html>
   );

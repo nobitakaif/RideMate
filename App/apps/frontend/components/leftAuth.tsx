@@ -7,12 +7,14 @@ import AuthProgressBar from "./AuthProgress";
 import { motion } from "motion/react"
 import { CiCircleCheck } from "react-icons/ci";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 
 export default function LeftSigninAuthPage(){
     
     const [progress, setProgress] = useState<'number' | 'profile' | 'verify'>('number')
     const [steps , setSteps] = useState<"number" | "otp" | "profile">("number")
+    const router = useRouter()
     return <div className="h-screen w-full bg-[#F0EEE8] flex justify-center items-center flex-col">
         
         {
@@ -44,7 +46,9 @@ export default function LeftSigninAuthPage(){
                     <p className="text-[#AAAAA5]/90">Let's set up your profile`</p>
                 </div>
                 <div>
-                    <Button className="bg-[#2D6A4F] px-8 text-lg py-4 ">Continue to profile</Button>
+                    <Button className="bg-[#2D6A4F] px-8 text-lg py-4 " onClick={()=>{
+                        router.push('/profile')
+                    }}>Continue to profile</Button>
                 </div>
             </div>
         }

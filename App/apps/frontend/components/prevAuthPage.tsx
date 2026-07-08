@@ -6,7 +6,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
-import { usePhoneNumberStore } from "@/components/zustandProvider"
+import { useUserInfoStore } from "@/components/zustandProvider"
 import { client } from "@/config/elysiaClient"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
@@ -16,7 +16,7 @@ import { toast } from "sonner"
 
 export default function LoginPage() {
 
-    const setPhoneNumber = usePhoneNumberStore((state) => state.setPhoneNumber)
+    const setPhoneNumber = useUserInfoStore((state) => state.setPhoneNumber)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
