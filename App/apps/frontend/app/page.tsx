@@ -1,4 +1,5 @@
 
+import Header from "@/components/Header/Header";
 import { client } from "@/config/elysiaClient";
 import { BACKEND_URL } from "@/lib/config";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -13,7 +14,7 @@ export default async function Home() {
   // client.api.v1.auth.
   return (
     <div>
-      
+      <Header />
     </div>
   );
 }
