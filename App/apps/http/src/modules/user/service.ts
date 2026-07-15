@@ -143,4 +143,7 @@ export abstract class UserAuthService{
             }
         }
     }
+    static async getUserInfo(){
+        
+    }
 }

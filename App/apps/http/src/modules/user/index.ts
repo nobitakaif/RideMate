@@ -99,18 +99,31 @@ export const userAuth = new Elysia({prefix : "/auth"})
     },{
         body : UserModel.userSchema
     })
-    .get("/me", async ({ jwt, query }) =>{
+    .get("/me", async ({ jwt, query, status }) =>{
         const { session } = query
-
+        console.log("session -> ",session)
         const decodedToken = await jwt.verify(session)
-        if(!decodedToken || typeof decodedToken != "string"){
-            return {
-
-            }
+        console.log("decoded response -> ",decodedToken)
+        if(!decodedToken){
+            return status(400, {
+                success : false,
+                error : "Invalid Token!"
+            })
         }
-        decodedToken
+        return status(200, {
+            user : decodedToken.userId
+        })
     }, {
         query : t.Object({
             session : t.String()
-        })
+        }),
+        response : {
+            200 : t.Object({
+                user : t.Any()
+            }),
+            400 : t.Object({
+                error : t.String(),
+                success : t.Boolean({default : false})
+            })
+        }
     })
