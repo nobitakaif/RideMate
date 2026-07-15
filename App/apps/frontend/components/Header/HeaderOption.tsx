@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "motion/react"
 import { Button } from "../ui/button"
 
 const options = ["Home", "Browse", "History"]
@@ -12,8 +13,8 @@ export default function HeaderOption() {
     const [choiceSelect, setChoiceSelect] = useState()
 
     return (
-        <div className="flex gap-4 w-full ">
-            <div className="flex gap-4 w-full ">
+        <div className="flex w-full justify-around items-center ">
+            <div className="flex gap-7">
                 {options.map((opt) => (
                 <div
                     key={opt}
@@ -28,11 +29,18 @@ export default function HeaderOption() {
                 </div>
             ))}
             </div>
-            <div className="flex gap-3 justify-center items-center item">
+            <div className="flex gap-5 justify-center items-center item">
                 {choice.map((ch) =>(
-                <div className={`border rounded-lg text-[#F0EEE8] w-33 text-center h-8`}>
+                <motion.div className={`border cursor-pointer border-[#414134] rounded-lg text-[#F0EEE8] w-33 text-center h-8 text-lg ${ch == "Get a vehicle" ? "bg-[#2D6A4F] " : ""}`}
+                    whileHover={{
+                        y : -2
+                    }}
+                    transition={{
+                        duration : 0.2
+                    }}
+                >
                     {ch}
-                </div>))}
+                </motion.div>))}
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePhoneNumberStore } from "@/components/zustandProvider";
+import { useUserInfoStore } from "@/components/zustandProvider";
 import { client } from "@/config/elysiaClient";
 import { useHydratedPhoneNumber } from "@/hooks/userHydrateStore";
 import { BACKEND_URL } from "@/lib/config";
