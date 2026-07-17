@@ -110,20 +110,24 @@ export const userAuth = new Elysia({prefix : "/auth"})
                 error : "Invalid Token!"
             })
         }
-        return status(200, {
-            user : decodedToken.userId
+        const res = await UserAuthService.getUserInfo({userId : decodedToken.userId })
+        
+        if('user' in res){
+            return status(200,{
+                user : res.user, 
+                success :res.success
+            })
+        }
+        return status(400, {
+            error : res.error,
+            success : res.success
         })
     }, {
         query : t.Object({
             session : t.String()
         }),
         response : {
-            200 : t.Object({
-                user : t.Any()
-            }),
-            400 : t.Object({
-                error : t.String(),
-                success : t.Boolean({default : false})
-            })
+            200 : UserModel.getUserInfoSuccess,
+            400 : UserModel.getUserInfoFailed
         }
     })

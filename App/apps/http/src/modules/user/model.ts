@@ -19,4 +19,20 @@ export namespace UserModel{
         phoneNumber : t.String(),
     })
     export type UserScheme = typeof userSchema.static
+
+    export const getUserInfoSuccess = t.Object({
+        user : t.Object({
+            email : t.String({format : "email"}),
+            name : t.String({maxLength : 20}),
+            avatar : t.String({})
+        }),
+        success : t.Boolean({default : true})
+    })
+    export type GetUserInfoSuccess = typeof getUserInfoSuccess.static
+
+    export const getUserInfoFailed = t.Object({
+        success : t.Boolean({default : false}),
+        error : t.String()
+    })
+    export type GetUserInfoFailed = typeof getUserInfoFailed.static
 }

@@ -67,7 +67,6 @@ export abstract class UserAuthService{
                 }
             })
             
-            
             return {
                 id : res.id,
                 success : true
@@ -143,7 +142,32 @@ export abstract class UserAuthService{
             }
         }
     }
-    static async getUserInfo(){
-        
+    static async getUserInfo({ userId } : { userId : string }) : Promise<UserModel.GetUserInfoFailed | UserModel.GetUserInfoSuccess> {
+        try{
+            const user  = await prisma.user.findFirst({
+                where : {
+                    id : userId
+                }
+            })
+            if(!user){
+                return {
+                    success : false,
+                    error : "incorrect userId"
+                }
+            }
+            return {
+                user : {
+                    email : user.email!,
+                    name : user.name!,
+                    avatar : user.profileImage!
+                },
+                success : true
+            }
+        }catch(e){
+            return {
+                success : false,
+                error : "something went wrong!"
+            }
+        }
     }
 }
