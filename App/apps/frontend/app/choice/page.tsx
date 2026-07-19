@@ -1,7 +1,9 @@
 "use client"
 
+import { client } from "@/config/elysiaClient"
 import {motion  } from "motion/react"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 
 const choice = [{
@@ -15,6 +17,7 @@ const choice = [{
 export default function Page(){
 
     const router = useRouter()
+    
     
     return <div className="h-screen w-full bg-[#1C1C17] flex justify-center items-center">
         <motion.div initial={{opacity : 0}} animate={{ opacity:1 }} transition={{duration : 0.5}} className="bg-[#F0EEE8] h-55 w-127 flex justify-center items-center flex-col gap-4 rounded-lg">

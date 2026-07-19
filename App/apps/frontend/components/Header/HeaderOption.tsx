@@ -30,8 +30,8 @@ export default function HeaderOption() {
             ))}
             </div>
             <div className="flex gap-5 justify-center items-center item">
-                {choice.map((ch) =>(
-                <motion.div className={`border cursor-pointer border-[#414134] rounded-lg text-[#F0EEE8] w-33 text-center h-8 text-lg ${ch == "Get a vehicle" ? "bg-[#2D6A4F] " : ""}`}
+                {choice.map((ch, idx) =>(
+                <motion.div key={idx} className={`border cursor-pointer border-[#414134] rounded-lg text-[#F0EEE8] w-33 text-center h-8 text-lg ${ch == "Get a vehicle" ? "bg-[#2D6A4F] " : ""}`}
                     whileHover={{
                         y : -2
                     }}

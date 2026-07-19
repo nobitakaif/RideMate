@@ -3,14 +3,11 @@ import { client } from "@/config/elysiaClient"
 import { cookies } from "next/headers"
 import Link from "next/link"
 import { Button } from "../ui/button"
-// import { useUserInfoStore } from "../zustandProvider"
-
-
 
 export default async function UserAvatar(){
     const cookiesStore = await cookies()
     const token =  cookiesStore.get("auth")?.value
-    // useUserInfoStore(u => u.getEmail)
+    console.log("token -> ",token)
     console.log("token -> ",token)
     if(!token){
         return <div className="flex justify-start ">
