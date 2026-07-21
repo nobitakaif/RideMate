@@ -1,7 +1,7 @@
 "use client"
 import { ArrowRight, BadgeDollarSign, Car, Dot } from "lucide-react"
 import { motion } from "motion/react"
-import AnimatedText from "./text"
+import AnimatedText from "./animatedText"
 
 export default function LeftSide(){
     return <div className="w-full h-full flex justify-center items-center ">
