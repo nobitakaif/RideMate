@@ -1,8 +1,9 @@
 "use client"
 import { MapPin } from "lucide-react"
 import { motion } from "motion/react"
+import NearByCarList from "./nearByCarList"
 
-interface TopCarList {
+export interface TopCarList {
     vehicleName: string,
     location: string,
     seater: number,
@@ -54,13 +55,18 @@ const dummyCarList: TopCarList[] = [
 
 export default function RightSide() {
     return <div className="w-full  h-[90vh] text-center flex justify-center items-center p-2">
-        <motion.div className="h-124 w-full bg-[#F0EEE8] rounded-xl flex flex-col p-4">
+        <motion.div className="h-124 w-full gap-4  bg-[#F0EEE8] rounded-xl flex flex-col p-4">
             <motion.div className="flex justify-between ">
                 <motion.span className="">Near By Vehicle</motion.span>
                 <motion.span className="flex justify-center items-center gap-1"><MapPin /> Bangalore</motion.span>
                 {/* car list  */}
 
-                
+            </motion.div>
+            
+            <motion.div className="lg:h-[85%] flex flex-col gap-2">
+                {dummyCarList.map((item, idx) =>(
+                    <NearByCarList props={item} key={idx}/>
+                ))}
             </motion.div>
         </motion.div>
     </div>
