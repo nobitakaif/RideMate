@@ -1,5 +1,5 @@
 "use client"
-import { MapPin } from "lucide-react"
+import { ArrowRight, MapPin } from "lucide-react"
 import { motion } from "motion/react"
 import NearByCarList from "./nearByCarList"
 
@@ -19,7 +19,7 @@ const dummyCarList: TopCarList[] = [
         location: "Downtown Garage",
         seater: 5,
         rating: 4.8,
-        price: 72,
+        price: 720,
         available: true,
         vehicle: "Car"
     },
@@ -28,7 +28,7 @@ const dummyCarList: TopCarList[] = [
         location: "City Center",
         seater: 2,
         rating: 4.5,
-        price: 35,
+        price: 350,
         available: false,
         vehicle: "Bike"
     },
@@ -37,7 +37,7 @@ const dummyCarList: TopCarList[] = [
         location: "Northside Parking",
         seater: 5,
         rating: 4.6,
-        price: 58,
+        price: 580,
         available: true,
         vehicle: "Car"
     },
@@ -46,7 +46,7 @@ const dummyCarList: TopCarList[] = [
         location: "East Lot",
         seater: 2,
         rating: 4.7,
-        price: 40,
+        price: 400,
         available: true,
         vehicle: "Bike"
     }
@@ -67,6 +67,11 @@ export default function RightSide() {
                 {dummyCarList.map((item, idx) =>(
                     <NearByCarList props={item} key={idx}/>
                 ))}
+            </motion.div>
+            <motion.div>
+                <motion.span className="flex gap-2 items-center px-1 text-[#2a9565] hover:text-[#265942] cursor-pointer w-42 rounded-full text-center ">
+                    View all 10+ nearby <ArrowRight className="h-5 w-5" />
+                </motion.span>
             </motion.div>
         </motion.div>
     </div>
