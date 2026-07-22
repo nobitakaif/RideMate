@@ -1,6 +1,7 @@
 
 import Header from "@/components/Header/Header";
 import HomePage from "@/components/Landing Page/homepage";
+import CurrentStats from "@/components/stats/currentStats";
 import { client } from "@/config/elysiaClient";
 import { BACKEND_URL } from "@/lib/config";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -18,6 +19,7 @@ export default async function Home() {
     <div className="h-screen bg-[#1C1C17]">
       <Header />
       <HomePage/>
+      <CurrentStats/>
     </div>
   );
 }
