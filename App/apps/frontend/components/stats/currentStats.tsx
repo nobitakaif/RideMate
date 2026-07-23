@@ -2,7 +2,7 @@
 
 import { Plus, IndianRupee } from "lucide-react"
 import { motion } from "motion/react"
-import { AnimatedCounter } from "./status"
+import AnimatedCounter from "./status"
 
 interface Status {
     value : number

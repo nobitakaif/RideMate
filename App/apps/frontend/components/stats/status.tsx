@@ -1,33 +1,49 @@
 "use client";
 
-import { animate, motion, useMotionValue, useTransform } from "motion/react";
-import { useEffect } from "react";
+import { animate, motion, useMotionValue, useTransform, useInView } from "motion/react";
+import { useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   value: number;
   prefix?: string;
   suffix?: string;
+  decimals?: number;
 }
 
-export function AnimatedCounter({
+export default function AnimatedCounter({
   value,
   prefix = "",
   suffix = "",
+  decimals = 0,
 }: AnimatedCounterProps) {
-  const count = useMotionValue(10);
+  const ref = useRef(null);
 
-  const rounded = useTransform(count, (latest) =>
-    `${prefix}${Math.round(latest)}${suffix}`
+  // Trigger only once when visible
+  const isInView = useInView(ref, {
+    once: true,
+    amount: 0.6, // 60% of the element should be visible
+  });
+
+  const count = useMotionValue(0);
+
+  const display = useTransform(count, (latest) =>
+    `${prefix}${latest.toFixed(decimals)}${suffix}`
   );
 
   useEffect(() => {
+    if (!isInView) return;
+
     const controls = animate(count, value, {
       duration: 1,
       ease: "easeOut",
     });
 
     return () => controls.stop();
-  }, [count, value]);
+  }, [isInView, value]);
 
-  return <motion.span>{rounded}</motion.span>;
+  return (
+    <motion.span ref={ref}>
+      {display}
+    </motion.span>
+  );
 }

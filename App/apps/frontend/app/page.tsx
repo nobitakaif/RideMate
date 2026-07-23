@@ -1,4 +1,5 @@
 
+import Guides from "@/components/guides/steps";
 import Header from "@/components/Header/Header";
 import HomePage from "@/components/Landing Page/homepage";
 import CurrentStats from "@/components/stats/currentStats";
@@ -20,6 +21,7 @@ export default async function Home() {
       <Header />
       <HomePage/>
       <CurrentStats/>
+      <Guides/>
     </div>
   );
 }
