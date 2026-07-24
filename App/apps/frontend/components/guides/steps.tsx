@@ -1,5 +1,6 @@
 "use client"
 
+import { Calendar, KeyRound, Search } from "lucide-react"
 import { motion } from "motion/react"
 
 interface Step {
@@ -11,19 +12,19 @@ interface Step {
 
 const steps : Step[] = [
     {
-        icon : "",
+        icon : <Search />,
         steps : 1,
         title : "Search near you",
         paragraph : "Browse verified cars from local owners in your neighborhood."
     },
     {
-        icon : "",
+        icon : <Calendar />,
         steps : 2,
         title : "Book and pay",
         paragraph : "Pick your dates, pay securely, and receive instant confirmation."
     },
     {
-        icon : "",
+        icon : <KeyRound />,
         steps : 3,
         title : "Pick up and drive",
         paragraph : "Meet the owner, grab the keys, and hit the road on your schedule."

@@ -4,6 +4,7 @@ import "./globals.css";
 import { UserInfoProvider } from "@/components/zustandProvider";
 import type { AppProps } from "next/app"
 import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/components/theme-provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,11 +45,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${puritan.variable} ${roboto .variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col ">
+        
+        <ThemeProvider defaultTheme="dark">
         <UserInfoProvider>
           {children}
           <Toaster position="bottom-right" richColors/>
+        
         </UserInfoProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
