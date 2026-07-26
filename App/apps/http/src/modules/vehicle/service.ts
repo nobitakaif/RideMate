@@ -2,7 +2,7 @@ import { prisma } from "@repo/db";
 import { VehicleModel } from "./model";
 
 export abstract class VehicleService{
-    static async addVehilce({ body, ownerId } : {body : VehicleModel.AddVehicleSchema, ownerId : string}) : Promise<VehicleModel.AddVehicleSuccess | VehicleModel.AddVehicleFailed>{
+    static async addVehicle({ body, ownerId } : {body : VehicleModel.AddVehicleSchema, ownerId : string}) : Promise<VehicleModel.AddVehicleSuccess | VehicleModel.AddVehicleFailed>{
 
         try{
             const vehicle = await prisma.vehicle.create({
@@ -15,15 +15,8 @@ export abstract class VehicleService{
                     availableLocation : body.availableLocation,
                     ownerId : ownerId,
                     gpsEnabled : body.gpsEnabled,
-                    gpsDevice : {
-                        create : {
-                            deviceId : body.deviceId!,
-                            imei : body.imeiNumber!.toString(),
-                            simNumber : body.simNumber!.toString()
-                        }
-                    },
                     purchasedYear : body.purchaseYear,
-                    yearOld : body.yearOld
+                    yearOld : body.yearOld,
                 }
             })
             
@@ -32,6 +25,7 @@ export abstract class VehicleService{
                 msg : "your vehicle is successfully added"
             }
         }catch(e){
+            console.log("error -> ",e)
             return {
                 success : false,
                 error : "something went wrong!"

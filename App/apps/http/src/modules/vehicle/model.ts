@@ -15,7 +15,7 @@ export namespace VehicleModel{
         imeiNumber : t.Optional(t.Number()),
         deviceId : t.Optional(t.String()),
         provider : t.Optional(t.Number()),
-        images : t.Array(t.String()),
+        images : t.Optional(t.Array(t.String())),
         description : t.Optional(t.String()),
         availableLocation : t.Array(t.String())
     })
