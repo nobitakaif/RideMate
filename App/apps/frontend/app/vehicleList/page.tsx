@@ -1,4 +1,5 @@
 "use client"
+import ListYourVehicle from "@/components/ListYourVehicle/listVehicle";
 import { Button } from "@/components/ui/button";
 import { client } from "@/config/elysiaClient";
 import { useState } from "react";
@@ -23,7 +24,7 @@ export default function VehicleList(){
         })
         console.log("res data -> ",res.data)
     }
-    return <div className="h-screen w-full">
-        <Button onClick={sendReq}>send req</Button>
+    return <div className="dark:bg-[#1C1C17] h-screen w-full flex justify-center">
+        <ListYourVehicle/>
     </div>
 }

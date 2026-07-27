@@ -5,6 +5,7 @@ import { UserInfoProvider } from "@/components/zustandProvider";
 import type { AppProps } from "next/app"
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider";
+import Header from "@/components/Header/Header";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange>
         <UserInfoProvider>
+          <Header />
           {children}
           <Toaster position="bottom-right" richColors/>
         
