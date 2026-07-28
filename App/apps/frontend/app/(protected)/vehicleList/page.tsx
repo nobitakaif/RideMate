@@ -24,7 +24,7 @@ export default function VehicleList(){
         })
         console.log("res data -> ",res.data)
     }
-    return <div className="dark:bg-[#1C1C17] h-screen w-full flex justify-center">
+    return <div className="dark:bg-[#1C1C17] h-screen w-full flex justify-center bg-[#FAFAF7]">
         <ListYourVehicle/>
     </div>
 }

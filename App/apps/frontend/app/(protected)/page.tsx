@@ -18,7 +18,6 @@ export default async function Home() {
 
   return (
     <div className="h-screen bg-[#1C1C17]">
-      
       <HomePage/>
       <CurrentStats/>
       <Guides/>

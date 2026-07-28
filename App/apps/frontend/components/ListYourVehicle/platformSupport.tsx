@@ -26,7 +26,7 @@ const features : Feature[] = [
 export default function PlatformSupport(){
     return <div className="flex gap-3">
         {features.map((item, idx) =>(
-            <motion.div className="h-14 w-88 border rounded-lg flex items-center px-6 gap-3 p-2">
+            <motion.div className="h-14 w-88 border rounded-lg flex items-center px-6 gap-3 p-2 bg-white">
                 {item.icon}
                 {item.text}
             </motion.div>

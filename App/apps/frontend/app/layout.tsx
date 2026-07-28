@@ -53,7 +53,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange>
         <UserInfoProvider>
-          <Header />
+          {/* <Header /> */}
           {children}
           <Toaster position="bottom-right" richColors/>
         

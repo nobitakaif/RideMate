@@ -5,7 +5,7 @@ import { motion } from "motion/react"
 import PlatformSupport from "./platformSupport"
 
 export default function TopBarDetails(){
-    return <div className="">
+    return <div className="mt-10">
         <motion.div className="bg-[#aeddc4] h-8 w-44 rounded-full flex justify-center items-center">
             <motion.span className="text-[#0a562f] flex justify-center items-center">
                 <Dot />for owner vehicle
