@@ -33,4 +33,22 @@ export namespace VehicleModel{
     })
     export type AddVehicleFailed = typeof addVehicleFailed.static
 
+    export const addVehiclePhoto = t.Object({
+        photo : t.Array(t.File(),{maxItems : 10}),
+        vehicleId : t.String()
+    })
+    export type AddVehiclePhoto = typeof addVehiclePhoto.static
+
+    export const addVehiclePhotoSuccess = t.Object({
+        success : t.Boolean(),
+        msg : t.String()
+    })
+    export type AddVehiclePhotoSuccess = typeof addVehiclePhotoSuccess.static
+
+    export const addVehiclePhotoFailed = t.Object({
+        success : t.Boolean(),
+        error : t.String()
+    })
+    export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
+
 }
