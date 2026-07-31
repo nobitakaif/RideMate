@@ -62,3 +62,14 @@ export const vehicle = new Elysia({ prefix: "/vehicle" })
             400 : VehicleModel.addVehicleFailed
         }
     })
+    .post("/photo", async ({ body })=>{
+        const { photo, vehicleId } = body
+        
+    },{
+        body : VehicleModel.addVehiclePhoto
+    })
+    .get("/all", async () =>{
+
+    }, {
+        body : VehicleModel.myVehicleListSchema
+    })

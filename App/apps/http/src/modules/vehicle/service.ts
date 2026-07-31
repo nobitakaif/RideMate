@@ -32,4 +32,15 @@ export abstract class VehicleService{
             }
         }
     }
+
+    static async uploadVehiclePhoto ({ vehicleId, photo } : VehicleModel.AddVehiclePhoto) {
+        try{
+            const res = await prisma.vehicleImages.create({
+                data : {
+                    vehicleId : vehicleId,
+                    imageUrl : photo
+                }
+            })
+        }
+    }
 }

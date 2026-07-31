@@ -34,7 +34,8 @@ export namespace VehicleModel{
     export type AddVehicleFailed = typeof addVehicleFailed.static
 
     export const addVehiclePhoto = t.Object({
-        photo : t.Array(t.File(),{maxItems : 10}),
+        photo : t.Optional(t.Array(t.File(),{maxItems : 10})),
+        url : t.String(),
         vehicleId : t.String()
     })
     export type AddVehiclePhoto = typeof addVehiclePhoto.static
@@ -50,5 +51,21 @@ export namespace VehicleModel{
         error : t.String()
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
+    
+    export const myVehicleListSchema = t.Object({
+        userId : t.String()
+    })
+    export type MyVehicleLIstSchema = typeof myVehicleListSchema.static
+
+    export const myVehicleListResponse = t.Object({
+        list : t.Array(t.Any())          
+    })
+    export type MyVehicleListResponse = typeof myVehicleListResponse.static
+
+    export const myVehicleListFailed = t.Object({
+        error : t.String(),
+        msg : t.String()
+    })
+    export type MyVehicleListFailed = typeof myVehicleListFailed.static
 
 }
