@@ -22,15 +22,15 @@ export namespace VehicleModel{
     export type AddVehicleSchema = typeof addVehicleSchema.static
 
     export const addVehicleSuccess = t.Object({
-        success : t.Boolean(),
-        msg : t.String()
+        success: t.Literal(true),
+        msg: t.String()
     })
     export type AddVehicleSuccess = typeof addVehicleSuccess.static
-    
+
     export const addVehicleFailed = t.Object({
-        success : t.Boolean(),
-        error : t.String()
-    })
+        success: t.Literal(false),
+        error: t.String()
+        })
     export type AddVehicleFailed = typeof addVehicleFailed.static
 
     export const addVehiclePhoto = t.Object({
@@ -41,14 +41,14 @@ export namespace VehicleModel{
     export type AddVehiclePhoto = typeof addVehiclePhoto.static
 
     export const addVehiclePhotoSuccess = t.Object({
-        success : t.Boolean(),
-        msg : t.String()
+        success: t.Literal(true),
+        msg: t.String()
     })
     export type AddVehiclePhotoSuccess = typeof addVehiclePhotoSuccess.static
 
     export const addVehiclePhotoFailed = t.Object({
-        success : t.Boolean(),
-        error : t.String()
+        success: t.Literal(false),
+        error: t.String()
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
     

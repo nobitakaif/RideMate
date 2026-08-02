@@ -33,14 +33,23 @@ export abstract class VehicleService{
         }
     }
 
-    static async uploadVehiclePhoto ({ vehicleId, photo } : VehicleModel.AddVehiclePhoto) {
+    static async uploadVehiclePhoto ({ vehicleId, url } : VehicleModel.AddVehiclePhoto) : Promise<VehicleModel.AddVehiclePhotoSuccess | VehicleModel.AddVehiclePhotoFailed> {
         try{
             const res = await prisma.vehicleImages.create({
                 data : {
                     vehicleId : vehicleId,
-                    imageUrl : photo
+                    imageUrl : url
                 }
             })
+            return {
+                success : true,
+                msg : "photo uploaded"
+            }
+        }catch(e : any){
+            return {
+                error : e,
+                success : false
+            }
         }
     }
 }

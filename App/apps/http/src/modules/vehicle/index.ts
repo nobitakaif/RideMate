@@ -63,13 +63,33 @@ export const vehicle = new Elysia({ prefix: "/vehicle" })
         }
     })
     .post("/photo", async ({ body })=>{
-        const { photo, vehicleId } = body
-        
+        const { url, vehicleId } = body
+        const res = await VehicleService.uploadVehiclePhoto({url, vehicleId})
+        if(res.success){
+            
+            return status(200, {
+                success : res.success,
+                msg : res.msg
+            })
+        }
+        return status(400, {
+            success : res.success,
+            error : res.error,
+        })
     },{
-        body : VehicleModel.addVehiclePhoto
+        body : VehicleModel.addVehiclePhoto,
+        response : {
+            200 : VehicleModel.addVehiclePhotoSuccess,
+            400 : VehicleModel.addVehiclePhotoFailed
+        }
     })
-    .get("/all", async () =>{
+    .get("/myVehicle", async () =>{
 
     }, {
         body : VehicleModel.myVehicleListSchema
+    })
+    .get("/myVehicle/", ()=>{
+
+    }, {
+
     })
