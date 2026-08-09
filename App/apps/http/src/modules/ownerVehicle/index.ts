@@ -5,14 +5,14 @@ import { VehicleService } from "./service";
 
 
 
-export const vehicle = new Elysia({ prefix: "/vehicle" })
+export const vehicle = new Elysia({ prefix: "/my_vehicle" })
     .use(
         jwt({
             name: "jwt",
             secret: process.env.JWT_SECRET!
         })
     ).
-    derive(async ({ cookie: { auth }, jwt, headers }) => {
+    derive(async ({ cookie: { auth }, jwt, headers }) => { 
         if (!auth.value) {
             console.log(auth.value)
             return status(200, {
@@ -40,7 +40,7 @@ export const vehicle = new Elysia({ prefix: "/vehicle" })
         
 
     })
-    .post("/add", async ({ userId, body }) => {
+    .post("/add", async ({ userId, body }) => { // user can add their vehicle 
 
         const res = await VehicleService.addVehicle({ownerId : userId , body : body})
         if('msg' in res){
@@ -62,7 +62,7 @@ export const vehicle = new Elysia({ prefix: "/vehicle" })
             400 : VehicleModel.addVehicleFailed
         }
     })
-    .post("/photo", async ({ body })=>{
+    .post("/photo", async ({ body })=>{ // for uploading the vehicle photo
         const { url, vehicleId } = body
         const res = await VehicleService.uploadVehiclePhoto({url, vehicleId})
         if(res.success){
@@ -83,13 +83,24 @@ export const vehicle = new Elysia({ prefix: "/vehicle" })
             400 : VehicleModel.addVehiclePhotoFailed
         }
     })
-    .get("/myVehicle", async () =>{
+    .get("/:id", async () =>{ // get vehicle by id
 
     }, {
-        body : VehicleModel.myVehicleListSchema
+        body : VehicleModel.myVehicleListSchema,
+        params : t.Object({
+            id : t.String()
+        })
     })
-    .get("/myVehicle/", ()=>{
+    .get("/list", ()=>{ // get all the vehicle listed by owner/user
 
     }, {
+
+    })
+    .get("/location/:", async ()=>{
+
+    },{
+        params : t.Object({
+            location : t.String()
+        })
 
     })

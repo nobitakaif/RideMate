@@ -22,7 +22,7 @@ export namespace VehicleModel{
     export type AddVehicleSchema = typeof addVehicleSchema.static
 
     export const addVehicleSuccess = t.Object({
-        success: t.Literal(true),
+        success: t.Boolean(),
         msg: t.String()
     })
     export type AddVehicleSuccess = typeof addVehicleSuccess.static
@@ -51,7 +51,7 @@ export namespace VehicleModel{
         error: t.String()
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
-    
+
     export const myVehicleListSchema = t.Object({
         userId : t.String()
     })
@@ -67,5 +67,4 @@ export namespace VehicleModel{
         msg : t.String()
     })
     export type MyVehicleListFailed = typeof myVehicleListFailed.static
-
 }
