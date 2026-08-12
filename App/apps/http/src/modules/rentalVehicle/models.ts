@@ -26,13 +26,16 @@ export namespace RentalVehicleModel{
     export type GetVehicleByLocationSchema = typeof getVehicleByLocationSchema.static
 
     export const getVehicleByLocationResponse = t.Object({
-        vehicleId : t.String(),
-        vehicleImage : t.String(),
-        vehiclePrice : t.Union([t.String(), t.Number()]),
-        ownerName : t.Optional(t.String()),
-        brand : t.String(), 
-        fuelType : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
-        feedback : t.Any(),
+        status : t.Literal("success"),
+        vehicles : t.Array(t.Object({
+            vehicleId : t.String(),
+            vehicleImage : t.String(),
+            vehiclePrice : t.Union([t.String(), t.Number()]),
+            ownerName : t.Optional(t.String()),
+            brand : t.String(), 
+            fuelType : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
+            feedback : t.Any(),
+        }))
     })
     export type GetVehicleByLocationResponse = typeof getVehicleByLocationResponse.static
 
