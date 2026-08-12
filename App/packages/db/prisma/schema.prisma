@@ -96,6 +96,7 @@ model Vehicle{
   purchasedYear     DateTime ?
   yearOld           Int?
   pricePerHour      Int
+  fuel              FUEL
   pricePerDay       Int
   registrationNumber  String?
   gpsEnabled        Boolean @default(false)
@@ -114,6 +115,12 @@ model Vehicle{
 enum CurrentState  {
   BOOKED
   AVAILABLE
+}
+
+enum FUEL{
+  ELECTRIC
+  FUEL
+  GAS
 }
 
 model VehicleFeedback{
