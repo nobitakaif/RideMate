@@ -17,18 +17,20 @@ export namespace VehicleModel{
         provider : t.Optional(t.Number()),
         images : t.Optional(t.Array(t.String())),
         description : t.Optional(t.String()),
-        availableLocation : t.Array(t.String())
+        availableLocation : t.Array(t.String()),
+        fuel : t.UnionEnum(['ELECTRIC', 'GAS', 'FUEL']),
+        currentState : t.UnionEnum(['AVAILABLE', 'BOOKED'])
     })
     export type AddVehicleSchema = typeof addVehicleSchema.static
 
     export const addVehicleSuccess = t.Object({
-        success: t.Boolean(),
+        success: t.Literal("success"),
         msg: t.String()
     })
     export type AddVehicleSuccess = typeof addVehicleSuccess.static
 
     export const addVehicleFailed = t.Object({
-        success: t.Literal(false),
+        success: t.Literal('failed'),
         error: t.String()
         })
     export type AddVehicleFailed = typeof addVehicleFailed.static
@@ -41,13 +43,13 @@ export namespace VehicleModel{
     export type AddVehiclePhoto = typeof addVehiclePhoto.static
 
     export const addVehiclePhotoSuccess = t.Object({
-        success: t.Literal(true),
+        success: t.Literal('success'),
         msg: t.String()
     })
     export type AddVehiclePhotoSuccess = typeof addVehiclePhotoSuccess.static
 
     export const addVehiclePhotoFailed = t.Object({
-        success: t.Literal(false),
+        success: t.Literal('failed'),
         error: t.String()
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
@@ -67,4 +69,16 @@ export namespace VehicleModel{
         msg : t.String()
     })
     export type MyVehicleListFailed = typeof myVehicleListFailed.static
+
+    export const getAllOwnerVehicleSchema  = t.Object({
+        userId : t.String()
+    })
+    export type GetALllOwnerVehicle = typeof getAllOwnerVehicleSchema.static
+
+    export const getAllOwnerVehicleSuccess = t.Object({
+        list : t.Array(t.Object({
+            id : t.String(), 
+            brand : t.String()
+        }))
+    })
 }

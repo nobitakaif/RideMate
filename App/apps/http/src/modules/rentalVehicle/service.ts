@@ -2,66 +2,88 @@ import { prisma } from "@repo/db";
 import { RentalVehicleModel } from "./models";
 
 
-export abstract class RentalVehicleService{
-    static async getVehicleById({ vehicleId } : RentalVehicleModel.GetVehicleById) : Promise<RentalVehicleModel.GetVehicleByIdSuccess | RentalVehicleModel.GetVehicleByIdFailed>{
-        try{
+export abstract class RentalVehicleService {
+    static async getVehicleById({ vehicleId }: RentalVehicleModel.GetVehicleById): Promise<RentalVehicleModel.GetVehicleByIdSuccess | RentalVehicleModel.GetVehicleByIdFailed> {
+        try {
             const vehicle = await prisma.vehicle.findFirst({
-                where : {
-                    id : vehicleId
+                where: {
+                    id: vehicleId
                 }
             })
 
-            if(!vehicle){
+            if (!vehicle) {
                 return {
-                    msg : "vehicle does not exist",
-                    status : "not found"
+                    msg: "vehicle does not exist",
+                    status: "not found"
                 }
             }
             return {
                 vehicle,
-                status : "success"
+                status: "success"
             }
-        }catch(e){
+        } catch (e) {
             return {
-                status : "error",
-                error : e,
-                msg : "something went wrong "
+                status: "error",
+                error: e,
+                msg: "something went wrong "
             }
         }
     }
-    async getVehicleByLocation ({ location }:RentalVehicleModel.GetVehicleByLocationSchema):Promise<RentalVehicleModel.GetVehicleByLocationResponse | RentalVehicleModel.GetVehicleByLocationFailed>{
-        try{
+    async getVehicleByLocation({ location }: RentalVehicleModel.GetVehicleByLocationSchema): Promise<RentalVehicleModel.GetVehicleByLocationResponse | RentalVehicleModel.GetVehicleByLocationFailed> {
+        try {
             const res = await prisma.vehicle.findMany({
-                where : {
-                    availableLocation : {
-                        has : location
+                where: {
+                    availableLocation: {
+                        has: location
                     }
                 },
-                select : {
-                    feedback : true,
-                    brand : true,
-                    id : true,
-                    owner : {
-                        select : {
-                            name : true,
+                select: {
+                    feedback: true,
+                    brand: true,
+                    id: true,
+                    owner: {
+                        select: {
+                            name: true,
                         }
                     },
-                    type : true
+                    type: true,
+                    fuel: true,
+                    images: {
+                        take : 10,
+                        select : {
+                            imageUrl : true
+                        }
+                    },
+                    pricePerDay: true,
+
+
                 }
             })
+            if (!res) {
+                return {
+                    status: "failed",
+                    msg: "Something went wrong!"
+                }
+            }
             return {
-                status : "success",
-                vehicles : res.map((x) => {
+                status: "success",
+                vehicles: res.map((x) => {
                     return {
-                        brand : x.brand,
-                        vehicleId : x.id,
-                        feedback : x.feedback,
+                        brand: x.brand!,
+                        vehicleId: x.id!,
+                        feedback: x.feedback,
+                        fuelType: x.type || "BIKE",
+                        vehicleImage: x.images.map(x => { return x.imageUrl }),
+                        vehiclePrice: x.pricePerDay || "",
+                        ownerName: x.owner.name ?? "User",
                     }
                 })
             }
-        }catch(e){
+        } catch (e) {
             return {
-
+                status: "failed",
+                error: e,
+                msg: "Something went wrong here!"
             }
         }
     }

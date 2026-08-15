@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import { userAuth } from "./modules/user";
 import { cors } from "@elysia/cors"
-import { vehicle } from "./modules/vehicle";
+import { vehicle } from "./modules/ownerVehicle";
 
 
 

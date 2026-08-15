@@ -43,7 +43,7 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
     .post("/add", async ({ userId, body }) => { // user can add their vehicle 
 
         const res = await VehicleService.addVehicle({ownerId : userId , body : body})
-        if('msg' in res){
+        if( res.success == 'success'){
             return status(200, {
                 success : res.success,
                 msg : res.msg
@@ -65,7 +65,7 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
     .post("/photo", async ({ body })=>{ // for uploading the vehicle photo
         const { url, vehicleId } = body
         const res = await VehicleService.uploadVehiclePhoto({url, vehicleId})
-        if(res.success){
+        if(res.success == 'success'){
             
             return status(200, {
                 success : res.success,
@@ -91,8 +91,8 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             id : t.String()
         })
     })
-    .get("/list", ()=>{ // get all the vehicle listed by owner/user
-
+    .get("/list", ({ userId })=>{ // get all the vehicle listed by owner/user
+        
     }, {
 
     })

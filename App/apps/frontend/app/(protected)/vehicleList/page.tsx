@@ -10,7 +10,7 @@ export default function VehicleList(){
     async function sendReq (){
         const purchaseYear = new Date()
         purchaseYear.setFullYear(purchaseYear.getFullYear() -10)
-        const res = await  client.api.v1.vehicle.add.post({
+        const res = await  client.api.v1.my_vehicle.add.post({
             availableLocation : ['mumbai'],
             brand : "BMW",
             gpsEnabled : false,

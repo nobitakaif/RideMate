@@ -2,7 +2,7 @@ import { prisma } from "@repo/db";
 import { VehicleModel } from "./model";
 
 export abstract class VehicleService{
-    static async addVehicle({ body, ownerId } : {body : VehicleModel.AddVehicleSchema, ownerId : string}) : Promise<VehicleModel.AddVehicleSuccess | VehicleModel.AddVehicleFailed>{
+    static async addVehicle({ body, ownerId,  } : {body : VehicleModel.AddVehicleSchema, ownerId : string}) : Promise<VehicleModel.AddVehicleSuccess | VehicleModel.AddVehicleFailed>{
 
         try{
             const vehicle = await prisma.vehicle.create({
@@ -17,17 +17,24 @@ export abstract class VehicleService{
                     gpsEnabled : body.gpsEnabled,
                     purchasedYear : body.purchaseYear,
                     yearOld : body.yearOld,
+                    fuel : body.fuel,
+                    currentState : body.currentState
                 }
             })
-            
+            if(!vehicle.id){
+                return {
+                    success : "failed",
+                    error : "something went wrong, please try again!" 
+                }
+            }
             return {
-                success :true,
+                success :'success',
                 msg : "your vehicle is successfully added"
             }
         }catch(e){
             console.log("error -> ",e)
             return {
-                success : false,
+                success : 'failed',
                 error : "something went wrong!"
             }
         }
@@ -42,14 +49,18 @@ export abstract class VehicleService{
                 }
             })
             return {
-                success : true,
+                success : 'success',
                 msg : "photo uploaded"
             }
         }catch(e : any){
             return {
                 error : e,
-                success : false
+                success : 'failed'
             }
         }
+    }
+
+    static async getAllOwnerVehicle(){
+        
     }
 }

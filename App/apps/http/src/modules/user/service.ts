@@ -28,7 +28,7 @@ export abstract class UserAuthService{
         console.log(number)
         const res = await verify(otp, number)
         console.log("res-> ",res)
-        if(res?.success){
+        if(res?.success == true){
             const user = await prisma.user.upsert({
                 where : {
                     phoneNumber : number

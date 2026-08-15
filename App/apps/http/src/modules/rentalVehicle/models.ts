@@ -29,7 +29,7 @@ export namespace RentalVehicleModel{
         status : t.Literal("success"),
         vehicles : t.Array(t.Object({
             vehicleId : t.String(),
-            vehicleImage : t.String(),
+            vehicleImage : t.Array(t.String()),
             vehiclePrice : t.Union([t.String(), t.Number()]),
             ownerName : t.Optional(t.String()),
             brand : t.String(), 
@@ -41,7 +41,8 @@ export namespace RentalVehicleModel{
 
     export const getVehicleByLocationFailed = t.Object({
         msg : t.String(),
-        error : t.Any()
+        status : t.Literal("failed"),
+        error : t.Optional(t.Any())
     })
     export type GetVehicleByLocationFailed = typeof getVehicleByLocationFailed.static
 

@@ -20,5 +20,10 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@elysiajs/eden": "^1.4.9",
+    "@types/twilio": "^3.19.3",
+    "twilio": "^6.0.2"
+  }
 }

@@ -37,7 +37,8 @@ export const userAuth = new Elysia({prefix : "/auth"})
     .post("/number/verify", async ({ body,cookie : { auth }, jwt }) =>{
         const { otp, number } = body
         const res = await UserAuthService.verifyOTP({ otp, number })
-        if(res.success){
+        console.log("inside response -> ", res)
+        if(res.success == true){
             return {
                 success : res.success,
                 msg : res.msg
