@@ -1,8 +1,8 @@
 import { prisma } from "@repo/db";
-import { VehicleModel } from "./model";
+import { OwnerVehicleModel } from "./model";
 
-export abstract class VehicleService{
-    static async addVehicle({ body, ownerId,  } : {body : VehicleModel.AddVehicleSchema, ownerId : string}) : Promise<VehicleModel.AddVehicleSuccess | VehicleModel.AddVehicleFailed>{
+export abstract class OwnerVehicleService{
+    static async addVehicle({ body, ownerId,  } : {body : OwnerVehicleModel.AddVehicleSchema, ownerId : string}) : Promise<OwnerVehicleModel.AddVehicleSuccess | OwnerVehicleModel.AddVehicleFailed>{
 
         try{
             const vehicle = await prisma.vehicle.create({
@@ -40,7 +40,7 @@ export abstract class VehicleService{
         }
     }
 
-    static async uploadVehiclePhoto ({ vehicleId, url } : VehicleModel.AddVehiclePhoto) : Promise<VehicleModel.AddVehiclePhotoSuccess | VehicleModel.AddVehiclePhotoFailed> {
+    static async uploadVehiclePhoto ({ vehicleId, url } : OwnerVehicleModel.AddVehiclePhoto) : Promise<OwnerVehicleModel.AddVehiclePhotoSuccess | OwnerVehicleModel.AddVehiclePhotoFailed> {
         try{
             const res = await prisma.vehicleImages.create({
                 data : {
@@ -60,7 +60,65 @@ export abstract class VehicleService{
         }
     }
 
-    static async getAllOwnerVehicle(){
-        
+    static async getAllOwnerVehicle({ userId }: OwnerVehicleModel.GetALllOwnerVehicleSchema) : Promise<OwnerVehicleModel.GetAllOwnerVehicleSuccess | OwnerVehicleModel.GetAllOwnerVehicleFailed>{
+        try{
+            const allVehicle = await prisma.vehicle.findMany({
+                where : {
+                    id : userId
+                },
+                select : {
+                    id : true,
+                    brand : true,
+                    name : true,
+                    description : true,
+                    pricePerDay : true,
+                    pricePerHour : true,
+                    fuel : true,
+                    images : true,
+                    model : true,
+                    registrationNumber : true,
+                    createdAt : true,
+                    gpsDevice : true,
+                    feedback : true,
+                    type : true
+                }
+            })
+            if(!allVehicle){
+                return {
+                    success : "failed",
+                    msg : "You didn't added any vehicle yet!"
+                }
+            }
+            return {
+                success : 'success',
+                list : allVehicle.map(( x ) =>{
+                    return {
+                        brand : x.brand,
+                        description : x.description,
+                        feedback : x.feedback,
+                        fuel : x.fuel,
+                        id : x.id,
+                        images : x.images,
+                        listedDate : x.createdAt,
+                        model : x.model,
+                        name : x.name,
+                        pricePerDay : x.pricePerDay,
+                        pricePerHour : x.pricePerHour,
+                        gps : x.gpsDevice,
+                        registrationNumber : x.registrationNumber,
+                        type : x.type
+                    }
+                })
+            }
+        }catch(e){
+            return {
+                success : "failed",
+                msg : "something went wrong!",
+                error : e
+            }
+        }
+    }
+    static async getVehicleById({}){
+
     }
 }

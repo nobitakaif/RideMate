@@ -1,7 +1,7 @@
 import Elysia, { status, t } from "elysia";
-import { VehicleModel } from "./model";
+import { OwnerVehicleModel } from "./model";
 import jwt from "@elysia/jwt";
-import { VehicleService } from "./service";
+import { OwnerVehicleService } from "./service";
 
 
 
@@ -42,7 +42,7 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
     })
     .post("/add", async ({ userId, body }) => { // user can add their vehicle 
 
-        const res = await VehicleService.addVehicle({ownerId : userId , body : body})
+        const res = await OwnerVehicleService.addVehicle({ownerId : userId , body : body})
         if( res.success == 'success'){
             return status(200, {
                 success : res.success,
@@ -55,16 +55,16 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             success : res.success
         })
     }, {
-        body : VehicleModel.addVehicleSchema,
+        body : OwnerVehicleModel.addVehicleSchema,
 
         response: {
-            200 : VehicleModel.addVehicleSuccess,
-            400 : VehicleModel.addVehicleFailed
+            200 : OwnerVehicleModel.addVehicleSuccess,
+            400 : OwnerVehicleModel.addVehicleFailed
         }
     })
     .post("/photo", async ({ body })=>{ // for uploading the vehicle photo
         const { url, vehicleId } = body
-        const res = await VehicleService.uploadVehiclePhoto({url, vehicleId})
+        const res = await OwnerVehicleService.uploadVehiclePhoto({url, vehicleId})
         if(res.success == 'success'){
             
             return status(200, {
@@ -77,16 +77,16 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             error : res.error,
         })
     },{
-        body : VehicleModel.addVehiclePhoto,
+        body : OwnerVehicleModel.addVehiclePhoto,
         response : {
-            200 : VehicleModel.addVehiclePhotoSuccess,
-            400 : VehicleModel.addVehiclePhotoFailed
+            200 : OwnerVehicleModel.addVehiclePhotoSuccess,
+            400 : OwnerVehicleModel.addVehiclePhotoFailed
         }
     })
     .get("/:id", async () =>{ // get vehicle by id
-
+        
     }, {
-        body : VehicleModel.myVehicleListSchema,
+        // body : OwnerVehicleModel.,
         params : t.Object({
             id : t.String()
         })

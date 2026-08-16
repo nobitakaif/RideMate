@@ -1,6 +1,6 @@
 import { t } from "elysia";
 
-export namespace VehicleModel{
+export namespace OwnerVehicleModel{
     export const addVehicleSchema = t.Object({
         type : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
         brand : t.String({maxLength : 40}),
@@ -54,31 +54,39 @@ export namespace VehicleModel{
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
 
-    export const myVehicleListSchema = t.Object({
-        userId : t.String()
-    })
-    export type MyVehicleLIstSchema = typeof myVehicleListSchema.static
-
-    export const myVehicleListResponse = t.Object({
-        list : t.Array(t.Any())          
-    })
-    export type MyVehicleListResponse = typeof myVehicleListResponse.static
-
-    export const myVehicleListFailed = t.Object({
-        error : t.String(),
-        msg : t.String()
-    })
-    export type MyVehicleListFailed = typeof myVehicleListFailed.static
+    
+    
 
     export const getAllOwnerVehicleSchema  = t.Object({
         userId : t.String()
     })
-    export type GetALllOwnerVehicle = typeof getAllOwnerVehicleSchema.static
+    export type GetALllOwnerVehicleSchema = typeof getAllOwnerVehicleSchema.static
 
     export const getAllOwnerVehicleSuccess = t.Object({
+        success : t.Literal("success"),
         list : t.Array(t.Object({
             id : t.String(), 
-            brand : t.String()
+            brand : t.String(),
+            name : t.String(),
+            pricePerDay : t.Number(),
+            pricePerHour : t.Number(),
+            description : t.Optional(t.Any()),
+            fuel : t.UnionEnum(['ELECTRIC', 'FUEL', 'GAS']),
+            images : t.Any(),
+            feedback : t.Optional(t.Any()),
+            model : t.String(),
+            type : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
+            registrationNumber : t.Optional(t.Any()),
+            listedDate : t.Any(),
+            gps : t.Optional(t.Any())
         }))
     })
+    export type GetAllOwnerVehicleSuccess = typeof getAllOwnerVehicleSuccess.static
+
+    export const getAllOwnerVehicleFailed = t.Object({
+        success : t.Literal('failed'),
+        msg : t.String(),
+        error : t.Optional(t.Any())
+    })
+    export type GetAllOwnerVehicleFailed = typeof getAllOwnerVehicleFailed.static
 }

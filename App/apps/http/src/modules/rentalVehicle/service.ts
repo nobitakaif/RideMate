@@ -29,7 +29,7 @@ export abstract class RentalVehicleService {
             }
         }
     }
-    async getVehicleByLocation({ location }: RentalVehicleModel.GetVehicleByLocationSchema): Promise<RentalVehicleModel.GetVehicleByLocationResponse | RentalVehicleModel.GetVehicleByLocationFailed> {
+    static async getVehicleByLocation({ location }: RentalVehicleModel.GetVehicleByLocationSchema): Promise<RentalVehicleModel.GetVehicleByLocationResponse | RentalVehicleModel.GetVehicleByLocationFailed> {
         try {
             const res = await prisma.vehicle.findMany({
                 where: {
@@ -55,8 +55,6 @@ export abstract class RentalVehicleService {
                         }
                     },
                     pricePerDay: true,
-
-
                 }
             })
             if (!res) {

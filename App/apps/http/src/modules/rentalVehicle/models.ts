@@ -34,7 +34,7 @@ export namespace RentalVehicleModel{
             ownerName : t.Optional(t.String()),
             brand : t.String(), 
             fuelType : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
-            feedback : t.Any(),
+            feedback : t.Optional(t.Any()),
         }))
     })
     export type GetVehicleByLocationResponse = typeof getVehicleByLocationResponse.static
