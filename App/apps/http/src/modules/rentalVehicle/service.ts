@@ -67,10 +67,10 @@ export abstract class RentalVehicleService {
                 status: "success",
                 vehicles: res.map((x) => {
                     return {
-                        brand: x.brand!,
-                        vehicleId: x.id!,
+                        brand: x.brand,
+                        vehicleId: x.id,
                         feedback: x.feedback,
-                        fuelType: x.type || "BIKE",
+                        fuelType: x.type,
                         vehicleImage: x.images.map(x => { return x.imageUrl }),
                         vehiclePrice: x.pricePerDay || "",
                         ownerName: x.owner.name ?? "User",

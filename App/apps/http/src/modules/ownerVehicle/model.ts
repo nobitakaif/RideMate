@@ -54,9 +54,6 @@ export namespace OwnerVehicleModel{
     })
     export type AddVehiclePhotoFailed = typeof addVehiclePhotoFailed.static
 
-    
-    
-
     export const getAllOwnerVehicleSchema  = t.Object({
         userId : t.String()
     })
@@ -89,4 +86,36 @@ export namespace OwnerVehicleModel{
         error : t.Optional(t.Any())
     })
     export type GetAllOwnerVehicleFailed = typeof getAllOwnerVehicleFailed.static
+
+    export const getVehicleByIdSchema = t.Object({
+        vehicleId : t.String()
+    })
+    export type GetVehicleByIdSchema = typeof getVehicleByIdSchema.static
+
+    export const getVehicleByIdSuccess = t.Object({
+        success : t.Literal("success"),
+        vehicle : t.Object({
+            brand : t.String(),
+            name : t.String(),
+            pricePerDay : t.Number(),
+            pricePerHour : t.Number(),
+            description : t.Optional(t.Any()),
+            fuel : t.UnionEnum(['ELECTRIC', 'FUEL', 'GAS']),
+            images : t.Any(),
+            feedback : t.Optional(t.Any()),
+            model : t.String(),
+            type : t.UnionEnum(['BIKE', 'CAR', 'OTHER']),
+            registrationNumber : t.Optional(t.Any()),
+            listedDate : t.Any(),
+            gps : t.Optional(t.Any()) 
+        })
+    })
+    export type GetVehicleByIdSuccess = typeof getVehicleByIdSuccess.static
+
+    export const getVehicleByIdFailed = t.Object({
+        success : t.Literal("failed"),
+        msg : t.String(),
+        error : t.Optional(t.Any())
+    })
+    export type GetVehicleByIdFailed = typeof getVehicleByIdFailed.static
 }

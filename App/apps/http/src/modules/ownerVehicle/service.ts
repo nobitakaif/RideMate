@@ -64,7 +64,7 @@ export abstract class OwnerVehicleService{
         try{
             const allVehicle = await prisma.vehicle.findMany({
                 where : {
-                    id : userId
+                    ownerId : userId
                 },
                 select : {
                     id : true,
@@ -118,7 +118,59 @@ export abstract class OwnerVehicleService{
             }
         }
     }
-    static async getVehicleById({}){
+    static async getVehicleById({ vehicleId }:OwnerVehicleModel.GetVehicleByIdSchema) : Promise<OwnerVehicleModel.GetVehicleByIdSuccess | OwnerVehicleModel.GetVehicleByIdFailed>{
+        try{
+            const res = await prisma.vehicle.findFirst({
+                where : {
+                    id : vehicleId
+                },
+                select : {
+                    brand : true,
+                    name : true,
+                    description : true,
+                    pricePerDay : true,
+                    pricePerHour : true,
+                    fuel : true,
+                    images : true,
+                    model : true,
+                    registrationNumber : true,
+                    createdAt : true,
+                    gpsDevice : true,
+                    feedback : true,
+                    type : true
+                }
+            })
 
+            if(!res){
+                return {
+                    success : "failed",
+                    msg : "incorrect vehicle Id"
+                }
+            }
+            return {
+                success : "success",
+                vehicle : {
+                    brand : res.brand,
+                    description : res.description,
+                    feedback : res.feedback,
+                    fuel : res.fuel,
+                    images : res.images,
+                    listedDate : res.createdAt,
+                    model : res.model,
+                    name : res.name,
+                    pricePerDay : res.pricePerDay,
+                    pricePerHour : res.pricePerHour,
+                    gps : res.gpsDevice,
+                    registrationNumber : res.registrationNumber,
+                    type : res.type
+                }
+            }
+        }catch(e){
+            return {
+                success : "failed",
+                msg : "Something went wrong!",
+                error : e
+            }
+        }
     }
 }

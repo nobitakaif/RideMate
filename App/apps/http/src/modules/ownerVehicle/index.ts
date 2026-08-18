@@ -83,24 +83,47 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             400 : OwnerVehicleModel.addVehiclePhotoFailed
         }
     })
-    .get("/:id", async () =>{ // get vehicle by id
-        
+    .get("/:id", async ({ params }) =>{ // get vehicle by id
+        const { vehicleId }  = params
+        const res = await OwnerVehicleService.getVehicleById({vehicleId : vehicleId})
+        if(res.success == "success"){
+            return status(200, {
+                success : res.success,
+                vehicle : res.vehicle
+            })
+        }
+        return status(400, {
+            success : res.success,
+            msg : res.msg,
+            error : res.error
+        })
     }, {
         // body : OwnerVehicleModel.,
         params : t.Object({
-            id : t.String()
-        })
+            vehicleId : t.String()
+        }),
+        response : {
+            200 : OwnerVehicleModel.getVehicleByIdSuccess,
+            400 : OwnerVehicleModel.getVehicleByIdFailed
+        }
     })
-    .get("/list", ({ userId })=>{ // get all the vehicle listed by owner/user
-        
+    .get("/list", async ({ userId })=>{ // get all the vehicle listed by owner/user
+        const res = await OwnerVehicleService.getAllOwnerVehicle({ userId })
+        if(res.success == "success"){
+            return status(200, {
+                list : res.list,
+                success : res.success
+            })
+        }
+        return status(400, {
+            success : res.success,
+            msg : res.msg, 
+            error : res.error
+        })
     }, {
-
+        response :{
+            200 : OwnerVehicleModel.getAllOwnerVehicleSuccess,
+            400 : OwnerVehicleModel.getAllOwnerVehicleFailed
+        }
     })
-    .get("/location/:", async ()=>{
-
-    },{
-        params : t.Object({
-            location : t.String()
-        })
-
-    })
+    
