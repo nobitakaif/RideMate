@@ -15,7 +15,7 @@ export default async function UserAvatar(){
         </div>
     }
     const user = await client.api.v1.auth.me.get({query : {session : token}})
-    console.log(user.data?.user.avatar)
+    console.log("user data",user.data   )
     return <div className="">
         <img src={user.data?.user.avatar} alt="" className="h-10 w-12 rounded-full"/>
     </div>

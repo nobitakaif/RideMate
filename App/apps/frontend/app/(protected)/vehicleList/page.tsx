@@ -11,16 +11,18 @@ export default function VehicleList(){
         const purchaseYear = new Date()
         purchaseYear.setFullYear(purchaseYear.getFullYear() -10)
         const res = await  client.api.v1.my_vehicle.add.post({
-            availableLocation : ['mumbai'],
-            brand : "BMW",
-            gpsEnabled : false,
-            model : "m4-2021",
-            pricePerDay : 5000,
-            pricePerHour : 1000,
-            purchaseYear : purchaseYear.toISOString(),
-            registrationNumber : "123321",
-            type : "CAR",
-            yearOld : 10,
+            availableLocation: ['mumbai'],
+            brand: "BMW",
+            gpsEnabled: false,
+            model: "m4-2021",
+            pricePerDay: 5000,
+            pricePerHour: 1000,
+            purchaseYear: purchaseYear.toISOString(),
+            registrationNumber: "123321",
+            type: "CAR",
+            yearOld: 10,
+            fuel: "ELECTRIC",
+            currentState: "AVAILABLE"
         })
         console.log("res data -> ",res.data)
     }
