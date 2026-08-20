@@ -1,0 +1,17 @@
+{
+  "name": "http-test",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5",
+    "@repo/http": "workspace:*"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.4.9",
+    "elysia": "^1.4.29"
+  }
+}
