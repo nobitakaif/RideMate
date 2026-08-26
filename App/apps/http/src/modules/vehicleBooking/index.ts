@@ -1,6 +1,7 @@
 import jwt from "@elysia/jwt";
 import Elysia, { status } from "elysia";
 import { VehicleBookingModel } from "./model";
+import { BookingService } from "./service";
 
 
 export const vehicleBooking = new Elysia({prefix : "/booking"})
@@ -37,8 +38,66 @@ export const vehicleBooking = new Elysia({prefix : "/booking"})
         }
     })
     .post("/make", async ({ userId, body })=>{
-        const { vehicleId } = body
+        
+        const res = await BookingService.makeBooking({
+            endAt : body.endAt,
+            renterId : userId,
+            stateAt : body.stateAt,
+            totalPrice : body.totalPrice,
+            vehicleId : body.vehicleId,
+            
+        })
+        if(res.success == "success"){
+            return status(200, {
+                success : res.success,
+                data : {
+                    bookingId : res.data.bookingId,
+                    endedAt : res.data.endedAt,
+                    startedAt : res.data.startedAt,
+                    ownerName : res.data.ownerName,
+                    totalFare : res.data.totalFare,
+                    vehicleId : res.data.vehicleId
+                }
+            })
+        }
+        return status(400, {
+            success : res.success,
+            msg : res.msg,
+            error : res.error
+        })
         
     }, {
-        body : VehicleBookingModel.makeBookingSchema
+        body : VehicleBookingModel.makeBookingSchema,
+        response : {
+            200 : VehicleBookingModel.makeBookingSuccess,
+            400 : VehicleBookingModel.makeBookingFailed
+        }
+    })
+    .post("/:bookingId/accept", async ({ userId, params })=>{
+        const res = await BookingService.acceptBooking({
+            bookingId : params.bookingId,
+            ownerId : userId
+        })
+        if(res.success === "success"){
+            return status(200, res)
+        }
+        return status(400, res)
+    }, {
+        params : VehicleBookingModel.acceptBookingSchema,
+        response : {
+            200 : VehicleBookingModel.acceptBookingSuccess,
+            400 : VehicleBookingModel.acceptBookingFailed
+        }
+    })
+    .get("/notifications", async ({ userId })=>{
+        const res = await BookingService.getNotifications(userId)
+        if(res.success === "success"){
+            return status(200, res)
+        }
+        return status(400, res)
+    }, {
+        response : {
+            200 : VehicleBookingModel.notificationsSuccess,
+            400 : VehicleBookingModel.acceptBookingFailed
+        }
     })
