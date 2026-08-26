@@ -45,7 +45,7 @@ export abstract class OwnerVehicleService{
             const res = await prisma.vehicleImages.create({
                 data : {
                     vehicleId : vehicleId,
-                    imageUrl : url
+                    imageUrl : url,
                 }
             })
             return {

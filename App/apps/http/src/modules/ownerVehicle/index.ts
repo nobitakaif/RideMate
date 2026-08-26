@@ -15,7 +15,7 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
     derive(async ({ cookie: { auth }, jwt, headers }) => { 
         if (!auth.value) {
             console.log(auth.value)
-            return status(200, {
+            return status(400, {
                 msg: "your not logged in!"
             })
         }
