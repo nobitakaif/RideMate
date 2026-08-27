@@ -41,12 +41,11 @@ export const vehicleBooking = new Elysia({prefix : "/booking"})
         
         const res = await BookingService.makeBooking({
             endAt : body.endAt,
-            renterId : userId,
             stateAt : body.stateAt,
             totalPrice : body.totalPrice,
             vehicleId : body.vehicleId,
             
-        })
+        }, {userId : userId})
         if(res.success == "success"){
             return status(200, {
                 success : res.success,

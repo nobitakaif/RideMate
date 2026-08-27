@@ -173,4 +173,34 @@ export abstract class OwnerVehicleService{
             }
         }
     }
+
+    static async myBooking({ userId } : OwnerVehicleModel.MyBookingSchema) : Promise<OwnerVehicleModel.MyBookingSuccess | OwnerVehicleModel.MyBookingFailed>{
+        try{
+            const res = await prisma.user.findMany({
+                where :  {
+                    id : userId, 
+                
+                },
+                select : {
+                    vehicles : true,
+                }
+            })
+            if(!res){
+                return  {
+                    success : "failed",
+                    msg : "you don't have any booking yet!"
+                }
+            }
+            return {
+                success : "success",
+                vehicles : res
+            }
+        }catch(e){
+            return {
+                success : "failed",
+                msg : "something went wrong!",
+                error : e
+            }
+        }
+    }
 }

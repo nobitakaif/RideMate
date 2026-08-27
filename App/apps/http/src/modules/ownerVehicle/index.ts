@@ -126,4 +126,22 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             400 : OwnerVehicleModel.getAllOwnerVehicleFailed
         }
     })
-    
+    .get("/my_booking", async({ userId })=>{ // to see how many booking owner has 
+        const res = await OwnerVehicleService.myBooking({ userId })
+        if(res.success == "success"){
+            return status(200, {
+                success : res.success,
+                vehicles : res.vehicles
+            })
+        }
+        return status(400,{
+            success : res.success,
+            error : res.error,
+            msg : res.msg
+        })
+    },{
+        response : {
+            200 : OwnerVehicleModel.myBookingSuccess,
+            400  : OwnerVehicleModel.myBookingFailed
+        }
+    })

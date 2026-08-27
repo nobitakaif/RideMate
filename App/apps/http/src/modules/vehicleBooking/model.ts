@@ -3,10 +3,9 @@ import { t } from "elysia";
 export namespace VehicleBookingModel{
     export const makeBookingSchema = t.Object({
         vehicleId : t.String(),
-        renterId : t.String(),
         stateAt : t.Any(),
         endAt : t.Any(),
-        totalPrice : t.Number(),
+        totalPrice : t.Number()
     })
     export type MakeBookingSchema = typeof makeBookingSchema.static
 

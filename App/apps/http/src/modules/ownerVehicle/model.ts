@@ -118,4 +118,22 @@ export namespace OwnerVehicleModel{
         error : t.Optional(t.Any())
     })
     export type GetVehicleByIdFailed = typeof getVehicleByIdFailed.static
+
+    export const myBookingSchema = t.Object({
+        userId : t.String()
+    })
+    export type MyBookingSchema = typeof myBookingSchema.static
+
+    export const myBookingSuccess = t.Object({
+        success : t.Literal("success"),
+        vehicles : t.Array(t.Any())
+    })
+    export type MyBookingSuccess = typeof myBookingSuccess.static
+    
+    export const myBookingFailed = t.Object({
+        success : t.Literal("failed"),
+        error : t.Optional(t.Any()),
+        msg : t.String()
+    })
+    export type MyBookingFailed = typeof myBookingFailed.static
 }
