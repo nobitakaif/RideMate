@@ -12,7 +12,7 @@ export default function OTPBox({number, setSteps} : { number : string, setSteps 
             <p>Change number</p>
         </motion.div>
         {/* box */}
-        <h1 className="text-2xl">
+        <h1 className="text-2xl dark:text-black">
             Enter verification code
         </h1 >
         <p className="text-[#AAAAAA]">We sent a 6-degit co to 
@@ -21,7 +21,7 @@ export default function OTPBox({number, setSteps} : { number : string, setSteps 
             </span>
         </p>
         <div>
-            <p>One-time password</p>
+            <p className="dark:text-black">One-time password</p>
             <OTPInput setSteps={setSteps}/>
         </div>
     </div>

@@ -41,18 +41,18 @@ export default function LeftSigninAuthPage(){
                 </motion.div>
                 </div>
                 <div>
-                    <h1 className="text-2xl text-center font-semibold">Number verified</h1>
+                    <h1 className="text-2xl text-center font-semibold dark:text-black">Number verified</h1>
                     <p className="text-[#AAAAAA]/90">+91-123456789 is confirmed</p>
                     <p className="text-[#AAAAA5]/90">Let's set up your profile`</p>
                 </div>
                 <div>
-                    <Button className="bg-[#2D6A4F] px-8 text-lg py-4 " onClick={()=>{
+                    <Button className="bg-[#2D6A4F] hover:bg-[#214d39] dark:text-white px-8 text-lg py-4 cursor-pointer  " onClick={()=>{
                         router.push('/profile')
                     }}>Continue to profile</Button>
                 </div>
             </div>
         }
-        <p className="mt-10">By continuing you agree to our <Link href={"#"} className="text-[#2D6A4F] hover:text-[#1F4F3A] underline">Terms</Link> and <Link href={"#"} className="text-[#2D6A4F] hover:text-[#1F4F3A] underline">Privacy policy</Link>
+        <p className="mt-10 dark:text-black ">By continuing you agree to our <Link href={"#"} className="text-[#2D6A4F] hover:text-[#1F4F3A] underline">Terms</Link> and <Link href={"#"} className="text-[#2D6A4F] hover:text-[#1F4F3A] underline">Privacy policy</Link>
         </p>
     </div>
 }

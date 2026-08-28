@@ -94,9 +94,9 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
       return;
     }
     const joinedOTP = otp.join("")
-    const phoneNumber = window.localStorage.getItem("phone-number-storage")
+    const phoneNumber = window.localStorage.getItem("user-info-storage")
     
-    
+    console.log( phoneNumber )
     try{
       const parsedData = JSON.parse(phoneNumber!)
       const number = parsedData.state.phoneNumber
@@ -110,7 +110,8 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
       console.log(res)
       toast.error("something went wrong")
     }catch(e){
-
+      console.log("something went wrong")
+      console.log(e)
     }
     alert(otp.join(""));
     
@@ -141,6 +142,7 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
             font-semibold
             outline-none
             transition
+            dark:text-black
 
             ${
               invalid && !digit
@@ -151,7 +153,7 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
           />
         ))}
       </div>
-    <div className="flex justify-between">
+    <div className="flex justify-between dark:text-black">
         <p>
         Code expires in{" "}
         <span className="font-semibold">
@@ -165,7 +167,7 @@ export default function OTPInput({setSteps} : {setSteps : any}) {
     </div>
       <Button
         onClick={verifyOTP}
-        className="rounded bg-green-700 px-6 py-3 lg:w-md h-10 text-lg cursor-pointer text-white w-full"
+        className="rounded bg-green-700 px-6 py-3 lg:w-md h-10 text-lg cursor-pointer  text-white w-full"
         
       >
         Verify number

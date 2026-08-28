@@ -43,7 +43,7 @@ export default function Page(){
     return <div className="h-screen w-full bg-[#1C1C17] flex justify-center items-center">
         <motion.div className=" w-100 rounded-lg shadow-2xl shadow-[#356a4d] bg-[#F0EEE8] p-2 flex flex-col gap-4">
             {/* Title */}
-            <motion.h1 className="text-center text-3xl font-bold " 
+            <motion.h1 className="text-center text-3xl font-bold dark:text-black " 
                 initial={{
                     opacity : 0,
                 }}
@@ -60,8 +60,8 @@ export default function Page(){
             { isProfile === "profile" ? <>
             
             <motion.div>
-                <Label className="text-xl font-semibold">Name</Label>
-                <Input placeholder="enter your name" className="border-2 border-gray-500 h-12 text-xl" ref={inputRef} onChange={() =>{
+                <Label className="text-xl font-semibold dark:text-black">Name</Label>
+                <Input placeholder="enter your name" className="border-2 dark:text-black border-gray-500 h-12 text-2xl" ref={inputRef} onChange={() =>{
                     setNameError(null)
                 }}/>
                 {nameError && <motion.p className="text-red-400">{nameError}</motion.p>}
