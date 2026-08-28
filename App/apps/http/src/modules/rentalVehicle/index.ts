@@ -52,3 +52,4 @@ export const RentalVehicle = new Elysia({prefix : "/vehicle"})
             400 : RentalVehicleModel.getVehicleByLocationFailed
         }
     })
+    

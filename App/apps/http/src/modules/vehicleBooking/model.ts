@@ -61,4 +61,58 @@ export namespace VehicleBookingModel{
         notifications : t.Array(notification)
     })
     export type NotificationsSuccess = typeof notificationsSuccess.static
+
+    export const  getMyAllBookingSchema = t.Object({
+        userId : t.String()
+    })
+    export type GetMyAllBookingSchema = typeof getMyAllBookingSchema.static
+
+    export const getMyAllBookingSuccess = t.Object({
+        success : t.Literal("success"),
+        allBookings : t.Array(t.Any())
+    })
+    export type GetMyAllBookingSuccess = typeof getMyAllBookingSuccess.static
+
+    export const getMyAllBookingFailed = t.Object({
+        success : t.Literal("failed"),
+        msg : t.String(),
+        error : t.Optional(t.Any())
+    })
+    export type GetMyAllBookingFailed = typeof getMyAllBookingFailed.static
+
+    export const getMyBookingSchema = t.Object({
+        bookingId : t.String()
+    })
+    export type GetMyBookingSchema = typeof getMyBookingSchema.static
+
+    export const getMyBookingSuccess = t.Object({
+        success : t.Literal("success"),
+        booking : t.Object({
+            reviews : t.Any(),
+            incident : t.Any(),
+            totalPrice : t.Any(),
+            startAt : t.Any(),
+            endAt : t.Any(),
+            vehicle : t.Object({    
+                feedback : t.Any(),
+                brand : t.Any(),
+                description : t.Any(),
+                gpsEnabled : t.Any(),
+                images : t.Any(),
+                ownerName : t.Any(),
+                model : t.Any(),
+                status : t.Any(),
+                yearOld : t.Any()
+            })
+        })
+    })
+    
+    export type GetMyBookingSuccess = typeof getMyBookingSuccess.static
+
+    export const getMyBookingFailed = t.Object({
+        success : t.Literal("failed"),
+        error : t.Optional(t.Any()),
+        msg : t.String(),
+    })
+    export type GetMyBookingFailed = typeof getMyBookingFailed.static
 }

@@ -100,3 +100,45 @@ export const vehicleBooking = new Elysia({prefix : "/booking"})
             400 : VehicleBookingModel.acceptBookingFailed
         }
     })
+    .get("/my_bookings", async({ userId })=>{
+        const res = await BookingService.getMyAllBooking({ userId })
+        if(res.success === "failed"){
+            return status(400, {
+                success : res.success,
+                msg : res.msg,
+                error : res.error
+            })
+        }
+        return status(200,{
+            success : res.success,
+            allBookings : res.allBookings
+        })
+    },{
+        response : {
+            200 : VehicleBookingModel.getMyAllBookingSuccess,
+            400 : VehicleBookingModel.getMyAllBookingFailed
+        }
+    })
+    .get("/", async({ params })=>{
+        const { bookingId } = params
+        const res = await BookingService.getMyBooking({ bookingId })
+
+        if(res.success === "failed"){
+            return status(400, {
+                success : res.success,
+                error : res.error,
+                msg : res.msg
+            })
+        }
+
+        return status(200, {
+            success : res.success,
+            booking : res.booking
+        })
+    },{
+        params : VehicleBookingModel.getMyBookingSchema,
+        response : {
+            200 : VehicleBookingModel.getMyBookingSuccess,
+            400 : VehicleBookingModel.getMyBookingFailed
+        }
+    })
