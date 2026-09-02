@@ -126,7 +126,7 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             400 : OwnerVehicleModel.getAllOwnerVehicleFailed
         }
     })
-    .get("/my_booking", async({ userId })=>{ // to see how many booking owner has 
+    .get("/booking_list", async({ userId })=>{ // to see how many booking owner has 
         const res = await OwnerVehicleService.myBooking({ userId })
         if(res.success == "success"){
             return status(200, {
@@ -144,4 +144,26 @@ export const vehicle = new Elysia({ prefix: "/my_vehicle" })
             200 : OwnerVehicleModel.myBookingSuccess,
             400  : OwnerVehicleModel.myBookingFailed
         }
+    })
+    .post("/:bookingId/accept", async ({ userId, params })=>{
+            const res = await OwnerVehicleService.acceptBooking({
+                bookingId : params.bookingId,
+                ownerId : userId
+            })
+            if(res.success === "success"){
+                return status(200, res)
+            }
+            return status(400, res)
+        }, {
+            params : OwnerVehicleModel.acceptBookingSchema,
+            response : {
+                200 : OwnerVehicleModel.acceptBookingSuccess,
+                400 : OwnerVehicleModel.acceptBookingFailed
+            }
+        })
+    .put("/:vehicleId", async()=>{ // owner can update their vehicle details
+
+    })
+    .delete("/:vehicleId", async()=>{ // owner can delete their vehicle
+
     })

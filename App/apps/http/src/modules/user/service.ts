@@ -26,6 +26,7 @@ export abstract class UserAuthService{
     static async verifyOTP({ otp, number } : UserModel.VerifyOTPSchema){
         console.log("otp ->", otp)
         console.log(number)
+        console.log("reached here!")
         const res = await verify(otp, number)
         console.log("res-> ",res)
         if(res?.success == true){

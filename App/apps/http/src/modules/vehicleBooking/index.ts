@@ -72,22 +72,7 @@ export const vehicleBooking = new Elysia({prefix : "/booking"})
             400 : VehicleBookingModel.makeBookingFailed
         }
     })
-    .post("/:bookingId/accept", async ({ userId, params })=>{
-        const res = await BookingService.acceptBooking({
-            bookingId : params.bookingId,
-            ownerId : userId
-        })
-        if(res.success === "success"){
-            return status(200, res)
-        }
-        return status(400, res)
-    }, {
-        params : VehicleBookingModel.acceptBookingSchema,
-        response : {
-            200 : VehicleBookingModel.acceptBookingSuccess,
-            400 : VehicleBookingModel.acceptBookingFailed
-        }
-    })
+    
     .get("/notifications", async ({ userId })=>{
         const res = await BookingService.getNotifications(userId)
         if(res.success === "success"){
@@ -97,7 +82,7 @@ export const vehicleBooking = new Elysia({prefix : "/booking"})
     }, {
         response : {
             200 : VehicleBookingModel.notificationsSuccess,
-            400 : VehicleBookingModel.acceptBookingFailed
+            400 : VehicleBookingModel.notificationFailed
         }
     })
     .get("/my_bookings", async({ userId })=>{

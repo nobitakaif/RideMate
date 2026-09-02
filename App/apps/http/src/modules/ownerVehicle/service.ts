@@ -203,4 +203,57 @@ export abstract class OwnerVehicleService{
             }
         }
     }
+
+    static async acceptBooking({ bookingId, ownerId }: { bookingId: string, ownerId: string }): Promise<OwnerVehicleModel.AcceptBookingSuccess | OwnerVehicleModel.AcceptBookingFailed> {
+            try {
+                const result = await prisma.$transaction(async (transaction) => {
+                    const updated = await transaction.booking.updateMany({
+                        where: {
+                            id: bookingId,
+                            status: "PENDING",
+                            vehicle: { ownerId }
+                        },
+                        data: { status: "APPROVED" }
+                    })
+    
+                    if (updated.count === 0) {
+                        return null
+                    }
+    
+                    const booking = await transaction.booking.findUniqueOrThrow({
+                        where: { id: bookingId },
+                        select: { renterId: true }
+                    })
+    
+                    await transaction.notification.create({
+                        data: {
+                            userId: booking.renterId,
+                            bookingId,
+                            type: "BOOKING_ACCEPTED"
+                        }
+                    })
+    
+                    return booking
+                })
+    
+                if (!result) {
+                    return {
+                        success: "failed",
+                        msg: "booking was not found, already accepted, or you do not own the vehicle"
+                    }
+                }
+    
+                return {
+                    success: "success",
+                    data: { bookingId, status: "ACCEPTED" }
+                }
+            } catch (e) {
+                return {
+                    success: "failed",
+                    msg: "something went wrong!",
+                    error: e
+                }
+            }
+        }
+    
 }

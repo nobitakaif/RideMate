@@ -29,27 +29,7 @@ export namespace VehicleBookingModel{
     })
     export type MakeBookingFailed = typeof makeBookingFailed.static
 
-    export const acceptBookingSchema = t.Object({
-        bookingId : t.String()
-    })
-    export type AcceptBookingSchema = typeof acceptBookingSchema.static
-
-    export const acceptBookingSuccess = t.Object({
-        success : t.Literal("success"),
-        data : t.Object({
-            bookingId : t.String(),
-            status : t.Literal("ACCEPTED")
-        })
-    })
-    export type AcceptBookingSuccess = typeof acceptBookingSuccess.static
-
-    export const acceptBookingFailed = t.Object({
-        success : t.Literal("failed"),
-        msg : t.String(),
-        error : t.Optional(t.Any())
-    })
-    export type AcceptBookingFailed = typeof acceptBookingFailed.static
-
+    
     export const notification = t.Object({
         id : t.String(),
         bookingId : t.String(),
@@ -61,6 +41,13 @@ export namespace VehicleBookingModel{
         notifications : t.Array(notification)
     })
     export type NotificationsSuccess = typeof notificationsSuccess.static
+
+    export const notificationFailed  = t.Object({
+        success : t.Literal("failed"),
+        error : t.Any(),
+        msg : t.String()
+    })
+    export type NotificationFailed = typeof notificationFailed.static
 
     export const  getMyAllBookingSchema = t.Object({
         userId : t.String()
