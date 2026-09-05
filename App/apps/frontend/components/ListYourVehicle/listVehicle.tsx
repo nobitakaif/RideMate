@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 import { Check, Upload } from "lucide-react";
 import Link from "next/link";
 import { Label } from "../ui/label";
-import { VehicleDetails } from "./vehilceDetails";
+import { VehicleDetails } from "./vehicleDetail";
 
 const CAR_TYPES = ["Hatchback", "Sedan", "SUV", "Luxury", "Electric"] as const;
 const FUELS = ["Petrol", "Diesel", "Electric", "Hybrid", "CNG"] as const;
