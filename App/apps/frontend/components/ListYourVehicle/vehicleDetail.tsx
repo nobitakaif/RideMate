@@ -7,9 +7,9 @@ import VehicleDetailForm from "./vehicleDetailForm"
 export function VehicleDetails(){
     const vehicle = useStore(vehicleStore, (state) =>state.vehicle)
     const setVehicle = useStore(vehicleStore, (state) =>state.setVehicle)
-    return <div className="mt-5 bg-yellow-300 rounded-lg w-full h-50 flex">
+    return <div className="mt-5 rounded-lg w-full  flex gap-3">
         {/* left form */}
-        <div className="bg-green-500 rounded-lg w-3/4 h-100 ">
+        <div className="rounded-lg w-3/4 ">
             <VehicleDetailForm/>
         </div>
         {/* right preview of vehicle */}
